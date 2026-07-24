@@ -37,7 +37,7 @@ const orgJsonLd = {
   name: 'ThePayBureau',
   legalName: 'Intelligent Payroll Limited',
   url: site,
-  logo: `${site}/logo-full.png`,
+  logo: `${site}/fulllogo.png`,
   email: 'support@thepaybureau.com',
   areaServed: 'GB',
 };
@@ -74,7 +74,7 @@ const orgJsonLd = {
     <header class="site-header">
       <div class="wrap nav">
         <a href="/" aria-label="ThePayBureau home">
-          <img src="/logo-full.png" alt="ThePayBureau" class="logo" width="220" height="30" />
+          <img src="/fulllogo.png" alt="ThePayBureau" class="logo" width="200" height="34" />
         </a>
         <nav class="navlinks" aria-label="Primary">
           {nav.map((n) => <a href={n.href}>{n.label}</a>)}
@@ -94,7 +94,7 @@ const orgJsonLd = {
       <div class="wrap">
         <div class="foot-grid">
           <div class="foot-about">
-            <img src="/logo-full.png" alt="ThePayBureau" width="200" height="28" />
+            <img src="/fulllogo.png" alt="ThePayBureau" width="190" height="32" />
             <p>Built by payroll professionals, for payroll professionals.</p>
           </div>
           <div>
@@ -123,5 +123,27 @@ const orgJsonLd = {
         </div>
       </div>
     </footer>
+
+    <script is:inline>
+      // Billing period toggle (monthly / annual). Both prices are in the static
+      // HTML via data-mo / data-yr; this only switches which is shown.
+      document.querySelectorAll('.billing-toggle').forEach((tg) => {
+        const scope = tg.closest('[data-billing]') || document;
+        tg.querySelectorAll('button').forEach((b) => {
+          b.addEventListener('click', () => {
+            const annual = b.dataset.cycle === 'annual';
+            tg.querySelectorAll('button').forEach((x) => {
+              const on = x === b;
+              x.classList.toggle('active', on);
+              x.setAttribute('aria-pressed', String(on));
+            });
+            scope.querySelectorAll('.amt').forEach((a) => {
+              a.textContent = annual ? a.dataset.yr : a.dataset.mo;
+            });
+            scope.querySelectorAll('[data-annual-only]').forEach((n) => { n.hidden = !annual; });
+          });
+        });
+      });
+    </script>
   </body>
 </html>

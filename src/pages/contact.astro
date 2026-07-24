@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz99qqWV5i5eUn0ul5ho0tB_OExA-gXhmIodQz1xv2GlpraaxZ_Q6xKq830ucUhnQ-4/exec';
+// Web3Forms — replace with the access key generated at web3forms.com for support@thepaybureau.com.
+// The key is safe to expose in the frontend (it only routes submissions to that inbox).
+const WEB3FORMS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY';
 ---
 <BaseLayout title="Contact — ThePayBureau" description="Get in touch with ThePayBureau. Questions about the product, pricing, security or your bureau — we respond within 24 hours." path="/contact">
   <section class="page-hero">
@@ -13,7 +15,7 @@ const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz99qqWV5i5eUn0ul
 
   <section class="section-lg">
     <div class="wrap">
-      <form class="form" id="contact-form" data-endpoint={FORM_ENDPOINT} novalidate>
+      <form class="form" id="contact-form" data-key={WEB3FORMS_KEY} novalidate>
         <div class="field">
           <label for="name">Full name</label>
           <input id="name" name="name" type="text" autocomplete="name" required />
@@ -30,7 +32,7 @@ const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz99qqWV5i5eUn0ul
           <label for="message">How can we help?</label>
           <textarea id="message" name="message" rows="4" required></textarea>
         </div>
-        <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <input class="hp" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <button class="btn btn-primary" type="submit">Send message</button>
         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </form>
@@ -43,7 +45,7 @@ const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz99qqWV5i5eUn0ul
     const status = document.getElementById('form-status');
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (form.website.value) return; // honeypot
+      if (form.botcheck.checked) return; // honeypot
       if (!form.name.value || !form.email.value.includes('@') || !form.message.value) {
         status.textContent = 'Please add your name, a valid email and a message.';
         status.className = 'form-status err';
@@ -53,20 +55,27 @@ const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz99qqWV5i5eUn0ul
       btn.disabled = true; btn.textContent = 'Sending…';
       status.textContent = '';
       try {
-        await fetch(form.dataset.endpoint, {
-          method: 'POST', mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify({
-            name: form.name.value, email: form.email.value,
-            company: form.company.value, message: form.message.value,
-            source: 'contact_form', formType: 'contact',
-            timestamp: new Date().toISOString(),
-            userAgent: navigator.userAgent, referrer: document.referrer,
+            access_key: form.dataset.key,
+            subject: 'New enquiry from thepaybureau.com',
+            from_name: 'ThePayBureau website',
+            name: form.name.value,
+            email: form.email.value,
+            company: form.company.value,
+            message: form.message.value,
           }),
         });
-        form.reset();
-        status.textContent = 'Thanks — we’ve got your message and will reply within 24 hours.';
-        status.className = 'form-status ok';
+        const data = await res.json();
+        if (data.success) {
+          form.reset();
+          status.textContent = 'Thanks — we’ve got your message and will reply within 24 hours.';
+          status.className = 'form-status ok';
+        } else {
+          throw new Error(data.message || 'failed');
+        }
       } catch {
         status.textContent = 'Something went wrong. Please email support@thepaybureau.com instead.';
         status.className = 'form-status err';

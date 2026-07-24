@@ -1,48 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const features = [
-  {
-    title: 'HMRC Deadline Tracking',
-    body: 'Every RTI, FPS and EPS deadline auto-calculated from your pay dates.',
-    icon: '<rect x="3" y="4.5" width="14" height="13" rx="2"/><path d="M3 8h14M7 2.5v4M13 2.5v4M7 12l1.6 1.6L12 10.4"/>',
-  },
-  {
-    title: 'Payroll Checklists',
-    body: 'Pre-built templates for every cycle — monthly, weekly, year-end, new starters.',
-    icon: '<path d="M7 5h9M7 10h9M7 15h9M3 5l1.2 1.2L6 4.4M3 10l1.2 1.2L6 9.4M3 15l1.2 1.2L6 14.4"/>',
-  },
-  {
-    title: 'Pension & Auto-Enrolment',
-    body: 'Track AE status, postponement and re-enrolment — with alerts before every declaration.',
-    icon: '<path d="M10 2.5l6 2.5v4c0 3.8-2.6 6.7-6 8.5-3.4-1.8-6-4.7-6-8.5V5z"/><path d="M7.5 10l1.7 1.7L13 8"/>',
-  },
-  {
-    title: 'Audit Trail',
-    body: 'Every change logged automatically. Export compliance reports in one click.',
-    icon: '<path d="M4 3h7l4 4v10H4z"/><path d="M11 3v4h4M7 11h6M7 14h6"/>',
-  },
-];
-
+// TODO(pricing-verify): reconcile against the running app + Stripe before production cutover.
 const tiers = [
-  {
-    name: 'Free', price: '£0', unit: '/forever', pop: false,
+  { name: 'Free', mo: '£0', yr: '£0', unit: '/forever', pop: false,
     desc: 'Everything an individual consultant needs, up to 50 active payrolls.',
     feats: ['Up to 50 active payrolls', 'Deadline management & alerts', 'CSV import & export', 'Payroll checklists'],
-    cta: 'Start with Free', href: 'https://app.thepaybureau.com/signup',
-  },
-  {
-    name: 'Unlimited', price: '£24', unit: '/user/mo', pop: true,
-    desc: 'For payroll pros. £19/user/mo billed annually. 14-day free trial.',
+    cta: 'Start with Free', href: 'https://app.thepaybureau.com/signup' },
+  { name: 'Unlimited', mo: '£24', yr: '£19', unit: '/user/mo', pop: true,
+    desc: 'For payroll pros — unlimited payrolls and Penny AI.',
     feats: ['Everything in Free', 'Unlimited payrolls', 'Penny — AI payroll assistant', 'Automated email reminders'],
-    cta: 'Try Unlimited Free', href: 'https://app.thepaybureau.com/signup',
-  },
-  {
-    name: 'Bureau', price: '£35', unit: '/user/mo', pop: false,
-    desc: 'For multi-person bureaux. £29/user/mo billed annually.',
-    feats: ['Everything in Unlimited', 'Advanced team dashboard', 'Financial & client-health insights', 'Priority support'],
-    cta: 'Start with Bureau', href: 'https://app.thepaybureau.com/signup',
-  },
+    cta: 'Try Unlimited Free', href: 'https://app.thepaybureau.com/signup' },
+  { name: 'Bureau', mo: '£35', yr: '£29', unit: '/user/mo', pop: false,
+    desc: 'For multi-person bureaux with team dashboards and insights.',
+    feats: ['Everything in Unlimited', 'Bureau & team dashboard', 'Financial & client-health insights', 'Priority support'],
+    cta: 'Start with Bureau', href: 'https://app.thepaybureau.com/signup' },
 ];
 
 const faqs = [
@@ -78,48 +50,51 @@ const faqs = [
   <section class="section" id="features">
     <div class="wrap">
       <div class="bento">
-        <!-- Big product tile -->
+        <!-- Payroll dashboard (big) -->
         <div class="cell c2 r2 tile-accent">
           <h3>One dashboard. Every client, every deadline.</h3>
           <p>See exactly what’s due today, tomorrow and next week — across your whole book.</p>
-          <div class="shot">
-            <img src="/payrolls.png" alt="ThePayBureau payroll status dashboard showing clients, due dates and colour-coded statuses" width="1200" height="620" loading="lazy" />
-          </div>
+          <div class="shot"><img src="/payrolls.png" alt="ThePayBureau payroll status dashboard showing clients, due dates and colour-coded statuses" width="1200" height="620" loading="lazy" /></div>
         </div>
 
-        <!-- Feature tiles -->
-        {features.slice(0, 2).map((f) => (
-          <div class="cell">
-            <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={f.icon} /></div>
-            <h3>{f.title}</h3>
-            <p>{f.body}</p>
-          </div>
-        ))}
+        <div class="cell">
+          <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="14" height="13" rx="2"/><path d="M3 8h14M7 2.5v4M13 2.5v4M7 12l1.6 1.6L12 10.4"/></svg></div>
+          <h3>HMRC Deadline Tracking</h3><p>Every RTI, FPS and EPS deadline auto-calculated from your pay dates.</p>
+        </div>
+        <div class="cell">
+          <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5h9M7 10h9M7 15h9M3 5l1.2 1.2L6 4.4M3 10l1.2 1.2L6 9.4M3 15l1.2 1.2L6 14.4"/></svg></div>
+          <h3>Payroll Checklists</h3><p>Pre-built templates for every cycle — monthly, weekly, year-end, new starters.</p>
+        </div>
 
-        <!-- Penny tile -->
+        <!-- Penny (wide) -->
         <div class="cell c2 tile-accent">
           <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2v3M5 7h12v9a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/><circle cx="9" cy="11.5" r="1"/><circle cx="14" cy="11.5" r="1"/></svg></div>
           <h3>Meet Penny — your AI payroll assistant</h3>
           <p>Ask “which clients are due this week?” and get an instant answer across your whole book.</p>
-          <div class="shot">
-            <img src="/Penny.png" alt="Penny, ThePayBureau’s AI assistant, answering payroll questions" width="1200" height="500" loading="lazy" />
-          </div>
+          <div class="shot"><img src="/Penny.png" alt="Penny, ThePayBureau’s AI assistant, answering payroll questions" width="1200" height="500" loading="lazy" /></div>
         </div>
 
-        <!-- More feature tiles -->
-        {features.slice(2).map((f) => (
-          <div class="cell">
-            <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={f.icon} /></div>
-            <h3>{f.title}</h3>
-            <p>{f.body}</p>
-          </div>
-        ))}
-
-        <!-- Stat tile -->
-        <div class="cell stat-tile">
-          <b>0</b>
-          <span>Deadlines missed — from the day you start</span>
+        <!-- Bureau metrics (wide) -->
+        <div class="cell c2 tile-accent">
+          <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l4-5 3 3 5-7"/><path d="M3 20h16M4 4v14"/></svg></div>
+          <h3>Bureau metrics that grow with you</h3>
+          <p>MRR, revenue per payroll, on-time rate and CPD hours — the numbers that run your business, live.</p>
+          <div class="shot"><img src="/metrics1.png" alt="ThePayBureau bureau metrics dashboard: MRR, revenue per client, on-time rate and an MRR trend chart" width="1480" height="720" loading="lazy" /></div>
         </div>
+
+        <div class="cell">
+          <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2.5l6 2.5v4c0 3.8-2.6 6.7-6 8.5-3.4-1.8-6-4.7-6-8.5V5z"/><path d="M7.5 10l1.7 1.7L13 8"/></svg></div>
+          <h3>Pension &amp; Auto-Enrolment</h3><p>Track AE status, postponement and re-enrolment — with alerts before every declaration.</p>
+        </div>
+        <div class="cell">
+          <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h7l4 4v10H4z"/><path d="M11 3v4h4M7 11h6M7 14h6"/></svg></div>
+          <h3>Audit Trail</h3><p>Every change logged automatically. Export compliance reports in one click.</p>
+        </div>
+        <div class="cell">
+          <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="7" r="2.6"/><path d="M3 18a5 5 0 0 1 10 0M15 5a2.6 2.6 0 0 1 0 5M17 18a5 5 0 0 0-3-4.6"/></svg></div>
+          <h3>Client Management</h3><p>Every client, PAYE reference and pension status in one place.</p>
+        </div>
+        <div class="cell stat-tile"><b>0</b><span>Deadlines missed — from the day you start</span></div>
       </div>
     </div>
   </section>
@@ -141,28 +116,33 @@ const faqs = [
   </section>
 
   <!-- PRICING TEASER -->
-  <section class="section-lg" id="pricing">
+  <section class="section-lg" id="pricing" data-billing>
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">SIMPLE, TRANSPARENT PRICING</span>
         <h2>Start free. Upgrade when you need more.</h2>
         <p>Less than the cost of one missed HMRC penalty. Billed per active team member.</p>
       </div>
+      <div class="toggle-center">
+        <div class="billing-toggle" role="group" aria-label="Billing period">
+          <button type="button" data-cycle="monthly" class="active" aria-pressed="true">Monthly</button>
+          <button type="button" data-cycle="annual" aria-pressed="false">Annual <span class="save">Save ~20%</span></button>
+        </div>
+        <p class="toggle-note" data-annual-only hidden>Annual plans are billed yearly.</p>
+      </div>
       <div class="tiers">
         {tiers.map((t) => (
           <div class={t.pop ? 'tier pop' : 'tier'}>
             {t.pop && <span class="flag">Most Popular</span>}
             <span class="name">{t.name}</span>
-            <div class="price">{t.price}<small>{t.unit}</small></div>
+            <div class="price"><span class="amt" data-mo={t.mo} data-yr={t.yr}>{t.mo}</span><small>{t.unit}</small></div>
             <p class="desc">{t.desc}</p>
-            <ul>
-              {t.feats.map((f) => <li><span class="ck">✓</span> {f}</li>)}
-            </ul>
+            <ul>{t.feats.map((f) => <li><span class="ck">✓</span> {f}</li>)}</ul>
             <a class={t.pop ? 'btn btn-primary' : 'btn btn-line'} href={t.href}>{t.cta}</a>
           </div>
         ))}
       </div>
-      <p class="pricing-note">Need forecasting, risk scoring and benchmarking? <a href="/pricing">See Enterprise &amp; full pricing →</a></p>
+      <p class="pricing-note">Need forecasting, benchmarking and enterprise support? <a href="/pricing">See Enterprise &amp; full pricing →</a></p>
     </div>
   </section>
 

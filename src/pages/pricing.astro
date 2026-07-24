@@ -3,21 +3,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 // TODO(pricing-verify): reconcile against the running app + Stripe before production cutover.
 const tiers = [
-  { name: 'Free', price: '£0', unit: '/forever', pop: false,
+  { name: 'Free', mo: '£0', yr: '£0', unit: '/forever', pop: false,
     desc: 'For individual consultants. Up to 50 active payrolls.',
     feats: ['Up to 50 active payrolls', 'Deadline management & alerts', 'CSV import & export', 'Pension declarations', 'Payroll checklists', 'Email support'],
     cta: 'Start with Free', href: 'https://app.thepaybureau.com/signup' },
-  { name: 'Unlimited', price: '£24', unit: '/user/mo', pop: true,
-    desc: 'For payroll pros. £19/user/mo billed annually (£228/yr). 14-day free trial.',
+  { name: 'Unlimited', mo: '£24', yr: '£19', unit: '/user/mo', pop: true,
+    desc: 'For payroll pros — unlimited payrolls and Penny AI.',
     feats: ['Everything in Free', 'Unlimited payrolls', 'Penny — AI payroll assistant', 'CPD / training log', 'Automated email reminders', 'Full audit trail'],
     cta: 'Try Unlimited Free', href: 'https://app.thepaybureau.com/signup' },
-  { name: 'Bureau', price: '£35', unit: '/user/mo', pop: false,
-    desc: 'For multi-person bureaux. £29/user/mo billed annually (£348/yr).',
+  { name: 'Bureau', mo: '£35', yr: '£29', unit: '/user/mo', pop: false,
+    desc: 'For multi-person bureaux with team dashboards and insights.',
     feats: ['Everything in Unlimited', 'Bureau & team dashboard', 'Financial & client-health insights', 'Organisation chart', 'Priority support'],
     cta: 'Start with Bureau', href: 'https://app.thepaybureau.com/signup' },
-  { name: 'Enterprise', price: 'Custom', unit: '', pop: false,
-    desc: 'For larger firms. Forecasting, risk scoring, benchmarking & team reviews.',
-    feats: ['Everything in Bureau', 'AML / KYC checks', 'Deep analytics & forecasting', 'Fee management & referrals', 'White labelling'],
+  { name: 'Enterprise', mo: 'Custom', yr: 'Custom', unit: '', pop: false,
+    desc: 'For larger firms — forecasting, benchmarking and full onboarding support.',
+    feats: ['Everything in Bureau', 'Deep analytics & forecasting', 'Churn-risk & revenue forecasting', 'Bureau benchmarking & team reviews', 'Full migration & setup support'],
     cta: 'Contact us', href: 'mailto:support@thepaybureau.com?subject=Enterprise%20plan%20enquiry' },
 ];
 
@@ -47,14 +47,22 @@ const cell = (v) => v === true ? '<span class="yes">✓</span>' : (v === false ?
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" data-billing>
     <div class="wrap">
+      <div class="toggle-center">
+        <div class="billing-toggle" role="group" aria-label="Billing period">
+          <button type="button" data-cycle="monthly" class="active" aria-pressed="true">Monthly</button>
+          <button type="button" data-cycle="annual" aria-pressed="false">Annual <span class="save">Save ~20%</span></button>
+        </div>
+        <p class="toggle-note" data-annual-only hidden>Annual plans are billed yearly.</p>
+      </div>
+
       <div class="tiers" style="grid-template-columns:repeat(4,1fr)">
         {tiers.map((t) => (
           <div class={t.pop ? 'tier pop' : 'tier'}>
             {t.pop && <span class="flag">Most Popular</span>}
             <span class="name">{t.name}</span>
-            <div class="price">{t.price}<small>{t.unit}</small></div>
+            <div class="price"><span class="amt" data-mo={t.mo} data-yr={t.yr}>{t.mo}</span><small>{t.unit}</small></div>
             <p class="desc">{t.desc}</p>
             <ul>{t.feats.map((f) => <li><span class="ck">✓</span> {f}</li>)}</ul>
             <a class={t.pop ? 'btn btn-primary' : 'btn btn-line'} href={t.href}>{t.cta}</a>
