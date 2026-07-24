@@ -3,86 +3,96 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const tiers = [
   {
-    status: 'V1 · Available Now', cls: 'now', name: 'Individual Consultant',
-    price: 'Free Forever · Unlimited from £19/user/mo',
-    desc: 'Everything a payroll consultant needs in one place. Replace spreadsheets and missed deadlines with a professional dashboard — free, forever, for up to 50 active payrolls.',
+    name: 'Free', price: '£0, forever', popular: false,
+    sub: 'Everything a payroll consultant needs to get started. Unlimited clients · up to 50 active payrolls.',
     groups: [
-      { label: 'Free — all consultants', items: ['Client Management (up to 50)', 'Payroll Management', 'Pension Declarations', 'CSV Import & Export', 'Basic Audit Trail', 'Email Support'] },
-      { label: 'Unlimited only', star: true, items: ['Payroll AI Assistant', 'CPD / Training Log', 'Automated Email Reminders'] },
+      { label: 'Included', kind: 'live', items: [
+        'Client Management (unlimited)', 'Payroll Management (up to 50 active payrolls)', 'Pension Declarations',
+        'CSV Import & Export', 'Basic Audit Trail', 'Live Dashboard Metrics', 'Email Support',
+      ] },
     ],
   },
   {
-    status: 'V2 · Available Now', cls: 'now', name: 'Bureau & Team',
-    price: 'From £29/user/mo (annual) · £35 monthly',
-    desc: 'Built for bureaus that want visibility, control and the commercial tools to run a proper payroll operation. Team dashboards and client health insights are live today, with commercial tooling on the way.',
+    name: 'Unlimited', price: '£19–24 / user / mo', popular: true,
+    sub: 'Everything in Free, plus — removes the 50-payroll cap.',
     groups: [
-      { label: 'Live today', items: ['Bureau / Team Dashboard', 'Financial Insights', 'Capacity Insights', 'Service Delivery Insights', 'Client Health Insights', 'Priority Support', 'Organisation Chart'] },
-      { label: 'Coming to Bureau', items: ['HMRC Auth Dashboard', 'Client Surveys', 'Time Tracking', 'Client Onboarding', 'Forms', 'Custom Fields', 'Invoicing', 'Contracts & Engagement Letters', 'E-signatures'] },
+      { label: 'Included', kind: 'live', items: [
+        'Unlimited active payrolls', 'Penny — Payroll AI Assistant', 'CPD / Training Log',
+        'Automated Email Reminders', 'Headline Metrics',
+      ] },
     ],
   },
   {
-    status: 'V3 · Enterprise', cls: '', name: 'Enterprise Suite',
-    price: 'Pricing on application',
-    desc: 'Advanced compliance, intelligent forecasting and the commercial tooling larger bureaus and accountancy firms need to run a regulated payroll operation with confidence.',
+    name: 'Bureau', price: '£29–35 / user / mo', popular: false,
+    sub: 'Everything in Unlimited, plus the tools to run a proper payroll operation.',
     groups: [
-      { label: 'Enterprise features', items: ['AML / KYC Checks', 'Deep Analytics', 'Capacity Forecasting', 'Churn Risk Scoring', 'Revenue Forecasting', 'Fee Management', 'Referral Tracking', 'White Labelling', 'Bureau Comparison', 'Team Performance Reviews'] },
+      { label: 'Live today', kind: 'live', items: [
+        'Bureau / Team Dashboard', 'Financial Insights', 'Capacity Insights', 'Service Delivery Insights',
+        'Client Health Insights', 'Organisation Chart', 'Priority Support',
+      ] },
+      { label: 'Planned', kind: 'planned', items: [
+        'Client Onboarding', 'Contracts & Engagement Letters', 'E-signatures', 'AML / KYC Checks',
+      ] },
     ],
   },
   {
-    status: '∞ Future Vision · Platform', cls: 'vision', name: 'The Operating System',
-    price: 'Platform pricing · To be confirmed',
-    desc: 'Our long-term vision — a platform every UK payroll bureau relies on. Client portals, workflow automation, direct HMRC connectivity and open integrations with your existing software.',
+    name: 'Enterprise', price: 'Pricing on application', popular: false,
+    sub: 'Everything in Bureau, plus advanced forecasting, benchmarking and commercial tooling.',
     groups: [
-      { label: 'Platform & vision', items: ['Client-Facing Portal', 'Self-Service Data Submission', 'Contract Renewal Portal', 'Custom Workflow Builder', 'Recurring Task Templates', 'Anomaly Detection', 'Internal Team Messaging', 'Client Communication Log', 'Document Storage', 'HMRC API Direct', 'Multi-Bureau Groups', 'Accounting Integration', 'API Integrations (Open)'] },
+      { label: 'Live today', kind: 'live', items: [
+        'Capacity Forecasting', 'Revenue Forecasting', 'Churn Risk Scoring',
+        'Peer Benchmarking / Bureau Comparison', 'Advanced Fee Management',
+      ] },
+      { label: 'Planned', kind: 'planned', items: [
+        'Client Surveys / NPS', 'Team Performance Reviews', 'White Labelling',
+      ] },
     ],
   },
 ];
 ---
 
-<BaseLayout title="Roadmap — ThePayBureau" description="The UK’s first payroll CRM, powered by AI. Four phases from solo consultant to enterprise platform — see what’s live today and what’s coming next." path="/roadmap">
+<BaseLayout title="Roadmap — ThePayBureau" description="The UK’s first payroll CRM, powered by AI. See exactly what’s live today and what’s coming next across Free, Unlimited, Bureau and Enterprise." path="/roadmap">
   <section class="page-hero">
     <div class="wrap">
-      <span class="eyebrow">BUILT BY BUREAU OWNERS, FOR BUREAU OWNERS</span>
-      <h1>The UK’s first payroll CRM, <span class="clip">powered by AI</span></h1>
-      <p>Purpose-built for payroll consultants and bureaus — designed by someone who has lived the problem every day. Four phases from solo consultant to enterprise platform.</p>
-      <div class="badges">
-        <span class="b">4 Phases</span>
-        <span class="b">48 Features</span>
-        <span class="b">2026 Launch</span>
-      </div>
+      <span class="eyebrow">PRODUCT ROADMAP</span>
+      <h1>What’s live today, and what’s <span class="clip">coming next</span></h1>
+      <p>The UK’s first payroll CRM, powered by AI — built with and for the payroll community. Every plan, every feature, laid out honestly.</p>
     </div>
   </section>
 
   <section class="section-lg">
     <div class="wrap">
-      <div class="sec-head">
-        <span class="eyebrow">PRODUCT ROADMAP</span>
-        <h2>Four phases. One vision.</h2>
-        <p>From a free tool every payroll consultant can use today, to the operating system every UK payroll bureau will rely on.</p>
+      <div class="rlegend">
+        <span class="k"><span class="s live"></span> Live today</span>
+        <span class="k"><span class="s plan"></span> Planned</span>
       </div>
 
       {tiers.map((t) => (
         <div class="rtier">
           <div class="rhead">
             <div>
-              <span class={`status ${t.cls}`}>{t.status}</span>
-              <h3 style="margin-top:12px">{t.name}</h3>
+              {t.popular && <span class="popular">Most popular</span>}
+              <h3 style="margin-top:8px">{t.name}</h3>
             </div>
             <span class="rprice">{t.price}</span>
           </div>
-          <p class="rdesc">{t.desc}</p>
+          <p class="rdesc">{t.sub}</p>
           {t.groups.map((g) => (
             <>
               <h4>{g.label}</h4>
               <div class="pills">
-                {g.items.map((it) => <span class={g.star ? 'pill-tag star' : 'pill-tag'}>{g.star ? '✦ ' : ''}{it}</span>)}
+                {g.items.map((it) => (
+                  <span class={g.kind === 'planned' ? 'pill-tag planned' : 'pill-tag live'}>
+                    <span class="mk">{g.kind === 'planned' ? '🔜' : '✓'}</span>{it}
+                  </span>
+                ))}
               </div>
             </>
           ))}
         </div>
       ))}
 
-      <p class="pricing-note" style="margin-top:30px">This roadmap evolves with customer and community feedback — your voice shapes what we build next.</p>
+      <p class="pricing-note" style="margin-top:30px">This roadmap evolves with customer and community feedback — your voice shapes what we build next. See <a href="/pricing">full pricing →</a></p>
     </div>
   </section>
 
