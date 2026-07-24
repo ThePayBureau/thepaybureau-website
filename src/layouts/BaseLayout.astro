@@ -125,6 +125,11 @@ const orgJsonLd = {
       </div>
     </footer>
 
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged screenshot">
+      <button class="lb-close" type="button" aria-label="Close">✕</button>
+      <img src="" alt="" />
+    </div>
+
     <Analytics />
 
     <script is:inline>
@@ -147,6 +152,40 @@ const orgJsonLd = {
           });
         });
       });
+
+      // Image lightbox — click any screenshot to view it larger. Progressive
+      // enhancement only; the images are already in the static HTML.
+      (function () {
+        const lb = document.getElementById('lightbox');
+        if (!lb) return;
+        const lbImg = lb.querySelector('img');
+        const closeBtn = lb.querySelector('.lb-close');
+        let lastFocus = null;
+        const open = (src, alt) => {
+          lbImg.src = src; lbImg.alt = alt || '';
+          lb.classList.add('open');
+          lastFocus = document.activeElement;
+          closeBtn.focus();
+          document.documentElement.style.overflow = 'hidden';
+        };
+        const close = () => {
+          lb.classList.remove('open'); lbImg.src = '';
+          document.documentElement.style.overflow = '';
+          if (lastFocus && lastFocus.focus) lastFocus.focus();
+        };
+        document.querySelectorAll('.shot img').forEach((img) => {
+          img.setAttribute('role', 'button');
+          img.setAttribute('tabindex', '0');
+          img.setAttribute('aria-label', (img.alt || 'Screenshot') + ' — enlarge');
+          img.addEventListener('click', () => open(img.currentSrc || img.src, img.alt));
+          img.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(img.currentSrc || img.src, img.alt); }
+          });
+        });
+        lb.addEventListener('click', (e) => { if (e.target === lb || e.target === closeBtn) close(); });
+        closeBtn.addEventListener('click', close);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && lb.classList.contains('open')) close(); });
+      })();
     </script>
   </body>
 </html>

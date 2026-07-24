@@ -201,6 +201,15 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;letter-spacing:-.03e
 .rlegend .s.plan{border:1px dashed #b7b0c4}
 .rtier .popular{background:var(--grad);color:#fff;font-family:var(--font-ui);font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:5px 12px;border-radius:999px;align-self:flex-start}
 
+/* image lightbox */
+.shot img{cursor:zoom-in}
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(20,13,32,.88);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:32px;cursor:zoom-out}
+.lightbox.open{display:flex}
+.lightbox img{max-width:96vw;max-height:92vh;width:auto;border-radius:12px;box-shadow:0 30px 80px -20px rgba(0,0,0,.7);cursor:default}
+.lightbox .lb-close{position:absolute;top:20px;right:24px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:1.3rem;line-height:1;cursor:pointer;display:grid;place-items:center}
+.lightbox .lb-close:hover{background:rgba(255,255,255,.26)}
+.lightbox .lb-close:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
 /* ---- security / feature cards grid ---- */
 .grid-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 @media(max-width:860px){.grid-cards{grid-template-columns:1fr}}
