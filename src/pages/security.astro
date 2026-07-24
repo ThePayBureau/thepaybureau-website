@@ -2,36 +2,36 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const cards = [
-  { t: 'Data Encryption', p: 'All data is encrypted in transit using TLS 1.2+ and at rest using AES-256. Every connection is served over HTTPS — no exceptions. Your clients’ payslips and personal data can never be intercepted.', i: '<rect x="4" y="9" width="14" height="10" rx="2"/><path d="M7 9V6.5a4 4 0 0 1 8 0V9"/>' },
-  { t: 'Tenant Isolation', p: 'Every bureau’s data is completely separated at the database level. Row-level security policies enforce strict boundaries — even on shared infrastructure, there is zero possibility of data crossover.', i: '<path d="M4 5h6v14H4zM14 5h6v14h-6z"/>' },
-  { t: 'Access Control', p: 'Strong password requirements, email verification and company-email enforcement. Session tokens refresh automatically and expire after inactivity. You decide who sees what — and can revoke access instantly.', i: '<circle cx="11" cy="8" r="3.2"/><path d="M5 19a6 6 0 0 1 12 0"/>' },
+  { t: 'Data Encryption', p: 'All data is encrypted in transit using TLS 1.2+ and at rest using AES-256. Every connection is served over HTTPS, enforced by strict transport security. Your clients’ payslips and personal data are protected end to end.', i: '<rect x="4" y="9" width="14" height="10" rx="2"/><path d="M7 9V6.5a4 4 0 0 1 8 0V9"/>' },
+  { t: 'Tenant Isolation', p: 'Every bureau’s data is logically isolated. Access controls scope every request to your organisation, and database-level row-level security policies provide a second layer of defence — so your data stays yours.', i: '<path d="M4 5h6v14H4zM14 5h6v14h-6z"/>' },
+  { t: 'Access Control', p: 'Strong password requirements, email verification, and company-email enforcement at registration. Sessions are secured with automatically rotating tokens, and you decide who sees what through role-based permissions — with the ability to deactivate a user and revoke their access instantly.', i: '<circle cx="11" cy="8" r="3.2"/><path d="M5 19a6 6 0 0 1 12 0"/>' },
   { t: 'Audit Trail', p: 'Every change to client records, payroll configurations and settings is logged — who changed what, and when. If HMRC ever asks, you’ll have the answer in seconds.', i: '<path d="M5 3h8l4 4v14H5z"/><path d="M13 3v4h4M8 12h6M8 15h6"/>' },
-  { t: 'Infrastructure & Monitoring', p: 'Hosted on enterprise-grade cloud infrastructure with automatic failover and redundant backups. Real-time error monitoring and uptime tracking catch problems before you notice them.', i: '<rect x="3" y="4" width="16" height="6" rx="1.5"/><rect x="3" y="13" width="16" height="6" rx="1.5"/><path d="M7 7h.01M7 16h.01"/>' },
-  { t: 'API & Request Protection', p: 'Every API request is authenticated and rate-limited. Cross-site request forgery protection on every form. Webhook signatures verified cryptographically. Disposable emails blocked at registration.', i: '<path d="M11 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M8.5 11l2 2 4-4"/>' },
+  { t: 'Infrastructure & Backups', p: 'Hosted on enterprise-grade cloud infrastructure with encrypted, redundant daily backups and a recovery procedure we’ve tested with a live restore drill. Your data can be recovered quickly if the unexpected happens.', i: '<rect x="3" y="4" width="16" height="6" rx="1.5"/><rect x="3" y="13" width="16" height="6" rx="1.5"/><path d="M7 7h.01M7 16h.01"/>' },
+  { t: 'API & Request Protection', p: 'Requests to your data are authenticated and rate-limited. Cross-site request forgery protection guards every data-changing request. Webhook signatures are verified cryptographically. Disposable and personal email addresses are blocked at registration.', i: '<path d="M11 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M8.5 11l2 2 4-4"/>' },
 ];
 const practices = [
-  'Automated dependency security audits on every build',
+  'Automated dependency vulnerability scanning on every dependency change, plus a scheduled weekly security audit',
   'Content Security Policy, HSTS and clickjacking protection headers on every response',
   'Source code never exposed to end users — source maps removed in production',
   'Secrets managed via encrypted environment variables — never hardcoded',
-  'Continuous error monitoring with real-time alerting',
-  'Rate limiting on all authentication and data-mutation endpoints',
+  'Structured application logging with automated alerting on background-job failures',
+  'Rate limiting on authentication and sensitive data endpoints',
   'Regular code reviews with security as a first-class concern',
-  'Incident response process documented and tested',
+  'Backup and restore procedures documented and tested with a live recovery drill',
 ];
 ---
 
-<BaseLayout title="Security — ThePayBureau" description="Payroll data is sensitive. ThePayBureau protects your clients’ data at every layer — AES-256 encryption, TLS 1.2+, row-level tenant isolation, full audit trail, UK GDPR & DPA 2018 compliant." path="/security">
+<BaseLayout title="Security — ThePayBureau" description="Payroll data is sensitive. ThePayBureau protects your clients’ data at every layer — AES-256 encryption, TLS 1.2+, tenant data isolation, full audit trail, daily encrypted backups, UK GDPR & DPA 2018 compliant." path="/security">
   <section class="page-hero">
     <div class="wrap">
       <span class="eyebrow">SECURITY</span>
       <h1>Your clients’ data, protected at every layer</h1>
-      <p>Payroll data is sensitive. We treat it that way — with encryption, strict access controls, and data isolation built into every part of the platform.</p>
+      <p>Payroll data is sensitive. We treat it that way — with encryption, strict access controls, and tenant data isolation built into every part of the platform.</p>
       <div class="badges">
         <span class="b">UK GDPR Compliant</span>
         <span class="b">Encrypted at Rest &amp; In Transit</span>
         <span class="b">Data Protection Act 2018</span>
-        <span class="b">99.9% Uptime</span>
+        <span class="b">Daily Encrypted Backups</span>
       </div>
     </div>
   </section>
