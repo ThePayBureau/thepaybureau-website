@@ -5,7 +5,7 @@ import { defineConfig } from 'astro/config';
 // No SSR, no client-side rendering of page content (see plan §0).
 // NOTE: @astrojs/sitemap to be re-added once the full page set exists.
 export default defineConfig({
-  site: 'https://thepaybureau.com',
+  site: 'https://www.thepaybureau.com',
   build: { format: 'directory' },
   compressHTML: true,
   // Preserve old URLs / SEO (see plan §12)

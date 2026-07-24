@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://thepaybureau.com/sitemap.xml
+Sitemap: https://www.thepaybureau.com/sitemap.xml
