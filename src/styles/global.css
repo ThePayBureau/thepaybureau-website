@@ -5,14 +5,15 @@
   --brand:#401D6C;          /* primary purple — buttons, links, accents */
   --brand-deep:#2c1c4e;     /* wordmark indigo — big headings */
   --brand-2:#5b2d99;        /* lighter purple */
-  --pink:#EC385D;           /* accent, sparing */
+  --pink:#EC385D;           /* vivid pink — DECORATIVE only (gradients, dots, borders, flag bg) */
+  --pink-text:#BE185D;      /* deeper pink for TEXT — passes WCAG AA on white */
   --peach:#FF8073;          /* accent, sparing */
   --grad:linear-gradient(120deg,var(--brand),var(--pink) 70%,var(--peach));
 
   /* ink + neutrals (purple-biased) */
   --ink:#211a2e;
   --ink-2:#574f66;
-  --ink-3:#867e95;
+  --ink-3:#64607a;          /* darkened to pass WCAG AA for small muted text */
   --paper:#ffffff;
   --surface:#ffffff;
   --wash:#f6f3fb;           /* muted lilac-grey section wash */
@@ -45,7 +46,7 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;letter-spacing:-.03e
 :focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:6px}
 
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-.eyebrow{font-family:var(--font-ui);font-size:.78rem;font-weight:700;letter-spacing:.06em;color:var(--pink)}
+.eyebrow{font-family:var(--font-ui);font-size:.78rem;font-weight:700;letter-spacing:.06em;color:var(--pink-text)}
 .clip{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .skip{position:absolute;left:-9999px;top:0}
 .skip:focus{left:12px;top:12px;z-index:200;background:var(--brand);color:#fff;padding:10px 16px;border-radius:8px}
@@ -123,7 +124,7 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;letter-spacing:-.03e
 .billing-toggle{display:inline-flex;gap:4px;padding:4px;background:var(--wash);border:1px solid var(--line);border-radius:999px;margin:0 auto 8px;justify-content:center}
 .billing-toggle button{font-family:var(--font-ui);font-size:.88rem;font-weight:650;color:var(--ink-2);background:transparent;border:0;padding:8px 18px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .15s,color .15s}
 .billing-toggle button.active{background:#fff;color:var(--brand);box-shadow:0 2px 8px -3px rgba(64,29,108,.35)}
-.billing-toggle .save{font-size:.7rem;font-weight:700;color:var(--pink);background:rgba(236,56,93,.1);padding:2px 7px;border-radius:999px}
+.billing-toggle .save{font-size:.7rem;font-weight:700;color:var(--pink-text);background:rgba(236,56,93,.12);padding:2px 7px;border-radius:999px}
 .toggle-center{text-align:center;margin-bottom:26px}
 .tier .name{font-family:var(--font-ui);font-weight:700;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
 .tier .price{font-family:var(--font-display);font-size:2.4rem;font-weight:800;margin:10px 0 2px;line-height:1;font-variant-numeric:tabular-nums}
@@ -181,7 +182,7 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;letter-spacing:-.03e
 .rtier{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:30px;margin-bottom:20px}
 .rtier .rhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px}
 .rtier .status{font-family:var(--font-ui);font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:var(--brand);padding:5px 11px;border-radius:999px}
-.rtier .status.now{background:var(--green)}
+.rtier .status.now{background:#166534}
 .rtier .status.soon{background:var(--amber)}
 .rtier .status.vision{background:var(--brand-2)}
 .rtier h3{font-size:1.5rem}

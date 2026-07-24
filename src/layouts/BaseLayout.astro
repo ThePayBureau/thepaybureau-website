@@ -10,6 +10,7 @@ import '@fontsource/inter/500.css';
 import '@fontsource/inter/600.css';
 import '@fontsource/dm-serif-display/400.css';
 import '../styles/global.css';
+import Analytics from '@vercel/analytics/astro';
 
 export interface Props {
   title?: string;
@@ -123,6 +124,8 @@ const orgJsonLd = {
         </div>
       </div>
     </footer>
+
+    <Analytics />
 
     <script is:inline>
       // Billing period toggle (monthly / annual). Both prices are in the static
