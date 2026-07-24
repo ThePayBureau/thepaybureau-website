@@ -1,0 +1,195 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const features = [
+  {
+    title: 'HMRC Deadline Tracking',
+    body: 'Every RTI, FPS and EPS deadline auto-calculated from your pay dates.',
+    icon: '<rect x="3" y="4.5" width="14" height="13" rx="2"/><path d="M3 8h14M7 2.5v4M13 2.5v4M7 12l1.6 1.6L12 10.4"/>',
+  },
+  {
+    title: 'Payroll Checklists',
+    body: 'Pre-built templates for every cycle — monthly, weekly, year-end, new starters.',
+    icon: '<path d="M7 5h9M7 10h9M7 15h9M3 5l1.2 1.2L6 4.4M3 10l1.2 1.2L6 9.4M3 15l1.2 1.2L6 14.4"/>',
+  },
+  {
+    title: 'Pension & Auto-Enrolment',
+    body: 'Track AE status, postponement and re-enrolment — with alerts before every declaration.',
+    icon: '<path d="M10 2.5l6 2.5v4c0 3.8-2.6 6.7-6 8.5-3.4-1.8-6-4.7-6-8.5V5z"/><path d="M7.5 10l1.7 1.7L13 8"/>',
+  },
+  {
+    title: 'Audit Trail',
+    body: 'Every change logged automatically. Export compliance reports in one click.',
+    icon: '<path d="M4 3h7l4 4v10H4z"/><path d="M11 3v4h4M7 11h6M7 14h6"/>',
+  },
+];
+
+const tiers = [
+  {
+    name: 'Free', price: '£0', unit: '/forever', pop: false,
+    desc: 'Everything an individual consultant needs, up to 50 active payrolls.',
+    feats: ['Up to 50 active payrolls', 'Deadline management & alerts', 'CSV import & export', 'Payroll checklists'],
+    cta: 'Start with Free', href: 'https://app.thepaybureau.com/signup',
+  },
+  {
+    name: 'Unlimited', price: '£24', unit: '/user/mo', pop: true,
+    desc: 'For payroll pros. £19/user/mo billed annually. 14-day free trial.',
+    feats: ['Everything in Free', 'Unlimited payrolls', 'Penny — AI payroll assistant', 'Automated email reminders'],
+    cta: 'Try Unlimited Free', href: 'https://app.thepaybureau.com/signup',
+  },
+  {
+    name: 'Bureau', price: '£35', unit: '/user/mo', pop: false,
+    desc: 'For multi-person bureaux. £29/user/mo billed annually.',
+    feats: ['Everything in Unlimited', 'Advanced team dashboard', 'Financial & client-health insights', 'Priority support'],
+    cta: 'Start with Bureau', href: 'https://app.thepaybureau.com/signup',
+  },
+];
+
+const faqs = [
+  { q: 'What is ThePayBureau?', a: 'A payroll CRM built for UK bureaus and specialists. It brings every client, HMRC deadline, checklist and pension declaration into one dashboard — so nothing slips through the cracks.' },
+  { q: 'How is this different from payroll software?', a: 'Payroll software runs the calculations; ThePayBureau runs the practice around it — tracking what’s due, for whom, and by when across all your clients. It sits alongside whatever payroll engine you already use.' },
+  { q: 'Is it really free?', a: 'Yes — the Free plan is free forever for up to 50 active payrolls, with no credit card required. You only pay when you need unlimited payrolls or team features.' },
+  { q: 'How long does setup take?', a: 'About 60 seconds to create your account, then import clients via CSV or add them individually. Deadlines generate automatically from your pay dates.' },
+  { q: 'Is my data secure?', a: 'Your data is UK-built and hosted, encrypted in transit (TLS 1.2+) and at rest (AES-256), with a full audit trail on every change. See our Security page for details.' },
+];
+---
+
+<BaseLayout>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="pill"><span class="d"></span> The UK’s first payroll CRM, powered by AI</span>
+      <h1>The payroll CRM that runs <span class="clip">your bureau for you</span></h1>
+      <p class="sub">Stop juggling spreadsheets. Track every HMRC deadline, manage every client, and tick off every checklist — all from one dashboard. Set up in 60 seconds.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-lg" href="https://app.thepaybureau.com/signup">Start Free in 60 Seconds</a>
+        <a class="btn btn-line btn-lg" href="#features">See how it works</a>
+      </div>
+      <div class="trust">
+        <span class="badge"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4.5l-6 6L3 7"/></svg> UK GDPR compliant</span>
+        <span class="badge"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4.5l-6 6L3 7"/></svg> AES-256 encrypted</span>
+        <span class="badge"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4.5l-6 6L3 7"/></svg> UK built &amp; hosted</span>
+        <span class="badge"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4.5l-6 6L3 7"/></svg> 99.9% uptime</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENTO -->
+  <section class="section" id="features">
+    <div class="wrap">
+      <div class="bento">
+        <!-- Big product tile -->
+        <div class="cell c2 r2 tile-accent">
+          <h3>One dashboard. Every client, every deadline.</h3>
+          <p>See exactly what’s due today, tomorrow and next week — across your whole book.</p>
+          <div class="shot">
+            <img src="/payrolls.png" alt="ThePayBureau payroll status dashboard showing clients, due dates and colour-coded statuses" width="1200" height="620" loading="lazy" />
+          </div>
+        </div>
+
+        <!-- Feature tiles -->
+        {features.slice(0, 2).map((f) => (
+          <div class="cell">
+            <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={f.icon} /></div>
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </div>
+        ))}
+
+        <!-- Penny tile -->
+        <div class="cell c2 tile-accent">
+          <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2v3M5 7h12v9a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/><circle cx="9" cy="11.5" r="1"/><circle cx="14" cy="11.5" r="1"/></svg></div>
+          <h3>Meet Penny — your AI payroll assistant</h3>
+          <p>Ask “which clients are due this week?” and get an instant answer across your whole book.</p>
+          <div class="shot">
+            <img src="/Penny.png" alt="Penny, ThePayBureau’s AI assistant, answering payroll questions" width="1200" height="500" loading="lazy" />
+          </div>
+        </div>
+
+        <!-- More feature tiles -->
+        {features.slice(2).map((f) => (
+          <div class="cell">
+            <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={f.icon} /></div>
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </div>
+        ))}
+
+        <!-- Stat tile -->
+        <div class="cell stat-tile">
+          <b>0</b>
+          <span>Deadlines missed — from the day you start</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section-lg" style="background:var(--wash)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">UP AND RUNNING IN 3 STEPS</span>
+        <h2>Set up in 60 seconds. Seriously.</h2>
+        <p>No credit card, no complex onboarding, no migration project.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><h3>Sign up in 60 seconds</h3><p>Create your account. No credit card, no complex setup — you’re straight in.</p></div>
+        <div class="step"><div class="n">2</div><h3>Add your clients</h3><p>Import via CSV or add them one by one. Deadlines generate automatically.</p></div>
+        <div class="step"><div class="n">3</div><h3>Never miss a deadline</h3><p>Checklists, HMRC deadlines and pension tracking — all handled for you.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING TEASER -->
+  <section class="section-lg" id="pricing">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">SIMPLE, TRANSPARENT PRICING</span>
+        <h2>Start free. Upgrade when you need more.</h2>
+        <p>Less than the cost of one missed HMRC penalty. Billed per active team member.</p>
+      </div>
+      <div class="tiers">
+        {tiers.map((t) => (
+          <div class={t.pop ? 'tier pop' : 'tier'}>
+            {t.pop && <span class="flag">Most Popular</span>}
+            <span class="name">{t.name}</span>
+            <div class="price">{t.price}<small>{t.unit}</small></div>
+            <p class="desc">{t.desc}</p>
+            <ul>
+              {t.feats.map((f) => <li><span class="ck">✓</span> {f}</li>)}
+            </ul>
+            <a class={t.pop ? 'btn btn-primary' : 'btn btn-line'} href={t.href}>{t.cta}</a>
+          </div>
+        ))}
+      </div>
+      <p class="pricing-note">Need forecasting, risk scoring and benchmarking? <a href="/pricing">See Enterprise &amp; full pricing →</a></p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-lg" id="faq" style="background:var(--wash)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">FREQUENTLY ASKED QUESTIONS</span>
+        <h2>Everything you need to know</h2>
+      </div>
+      <div class="faq">
+        {faqs.map((f, i) => (
+          <details open={i === 0}>
+            <summary>{f.q}<span class="chev">▾</span></summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>Ready to simplify your payroll bureau?</h2>
+      <p>Free forever for individuals. No credit card required.</p>
+      <a class="btn btn-primary btn-lg" href="https://app.thepaybureau.com/signup">Get started free</a>
+    </div>
+  </section>
+</BaseLayout>

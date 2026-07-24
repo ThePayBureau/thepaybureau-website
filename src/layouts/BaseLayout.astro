@@ -1,0 +1,127 @@
+---
+// Self-hosted fonts (no runtime Google Fonts — perf + GDPR)
+import '@fontsource/plus-jakarta-sans/400.css';
+import '@fontsource/plus-jakarta-sans/500.css';
+import '@fontsource/plus-jakarta-sans/600.css';
+import '@fontsource/plus-jakarta-sans/700.css';
+import '@fontsource/plus-jakarta-sans/800.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/dm-serif-display/400.css';
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+}
+
+const {
+  title = 'ThePayBureau — The Payroll CRM That Runs Your Bureau For You',
+  description = 'The UK’s first payroll CRM, powered by AI. Track every HMRC deadline, manage every client, and tick off every checklist — all from one dashboard. Free forever for individuals.',
+  path = '/',
+} = Astro.props;
+
+const site = 'https://thepaybureau.com';
+const canonical = new URL(path, site).href;
+const nav = [
+  { label: 'Features', href: '/#features' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Roadmap', href: '/roadmap' },
+  { label: 'Security', href: '/security' },
+];
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'ThePayBureau',
+  legalName: 'Intelligent Payroll Limited',
+  url: site,
+  logo: `${site}/logo-full.png`,
+  email: 'support@thepaybureau.com',
+  areaServed: 'GB',
+};
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ThePayBureau" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${site}/og-image.png`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${site}/og-image.png`} />
+    <meta name="theme-color" content="#401D6C" />
+    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap nav">
+        <a href="/" aria-label="ThePayBureau home">
+          <img src="/logo-full.png" alt="ThePayBureau" class="logo" width="220" height="30" />
+        </a>
+        <nav class="navlinks" aria-label="Primary">
+          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        </nav>
+        <div class="nav-cta">
+          <a class="btn btn-line" href="https://app.thepaybureau.com/login">Log in</a>
+          <a class="btn btn-primary" href="https://app.thepaybureau.com/signup">Start Free</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="foot-grid">
+          <div class="foot-about">
+            <img src="/logo-full.png" alt="ThePayBureau" width="200" height="28" />
+            <p>Built by payroll professionals, for payroll professionals.</p>
+          </div>
+          <div>
+            <h4>Product</h4>
+            <a href="/#features">Features</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/roadmap">Roadmap</a>
+            <a href="/security">Security</a>
+          </div>
+          <div>
+            <h4>Company</h4>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="mailto:support@thepaybureau.com">Support</a>
+          </div>
+          <div>
+            <h4>Legal</h4>
+            <a href="/terms">Terms of Service</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/security">Security</a>
+          </div>
+        </div>
+        <div class="foot-bottom">
+          <span>© 2026 ThePayBureau · Intelligent Payroll Limited T/A The Pay Bureau. Registered in England and Wales.</span>
+          <span>UK built &amp; hosted</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
