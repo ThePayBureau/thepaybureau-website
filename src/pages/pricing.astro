@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// TODO(pricing-verify): reconcile against the running app + Stripe before production cutover.
+const tiers = [
+  { name: 'Free', price: '£0', unit: '/forever', pop: false,
+    desc: 'For individual consultants. Up to 50 active payrolls.',
+    feats: ['Up to 50 active payrolls', 'Deadline management & alerts', 'CSV import & export', 'Pension declarations', 'Payroll checklists', 'Email support'],
+    cta: 'Start with Free', href: 'https://app.thepaybureau.com/signup' },
+  { name: 'Unlimited', price: '£24', unit: '/user/mo', pop: true,
+    desc: 'For payroll pros. £19/user/mo billed annually (£228/yr). 14-day free trial.',
+    feats: ['Everything in Free', 'Unlimited payrolls', 'Penny — AI payroll assistant', 'CPD / training log', 'Automated email reminders', 'Full audit trail'],
+    cta: 'Try Unlimited Free', href: 'https://app.thepaybureau.com/signup' },
+  { name: 'Bureau', price: '£35', unit: '/user/mo', pop: false,
+    desc: 'For multi-person bureaux. £29/user/mo billed annually (£348/yr).',
+    feats: ['Everything in Unlimited', 'Bureau & team dashboard', 'Financial & client-health insights', 'Organisation chart', 'Priority support'],
+    cta: 'Start with Bureau', href: 'https://app.thepaybureau.com/signup' },
+  { name: 'Enterprise', price: 'Custom', unit: '', pop: false,
+    desc: 'For larger firms. Forecasting, risk scoring, benchmarking & team reviews.',
+    feats: ['Everything in Bureau', 'AML / KYC checks', 'Deep analytics & forecasting', 'Fee management & referrals', 'White labelling'],
+    cta: 'Contact us', href: 'mailto:support@thepaybureau.com?subject=Enterprise%20plan%20enquiry' },
+];
+
+const rows = [
+  ['Active payrolls', 'Up to 50', 'Unlimited', 'Unlimited'],
+  ['Deadline management & alerts', true, true, true],
+  ['CSV import & export', true, true, true],
+  ['Pension declarations', true, true, true],
+  ['Payroll checklists', true, true, true],
+  ['Audit trail', 'Basic', 'Full', 'Full'],
+  ['Penny — AI payroll assistant', false, true, true],
+  ['CPD / training log', false, true, true],
+  ['Automated email reminders', false, true, true],
+  ['Bureau & team dashboard', false, false, true],
+  ['Financial & client-health insights', false, false, true],
+  ['Priority support', 'Email', 'Email', 'Priority'],
+];
+const cell = (v) => v === true ? '<span class="yes">✓</span>' : (v === false ? '—' : v);
+---
+
+<BaseLayout title="Pricing — ThePayBureau" description="Simple, transparent pricing for UK payroll bureaus. Start free forever for individuals; upgrade to Unlimited or Bureau as you grow. Billed per active team member." path="/pricing">
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">SIMPLE, TRANSPARENT PRICING</span>
+      <h1>Start free. Upgrade when you need more.</h1>
+      <p>Less than the cost of one missed HMRC penalty. Paid plans are billed per active team member. All prices exclude VAT.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="tiers" style="grid-template-columns:repeat(4,1fr)">
+        {tiers.map((t) => (
+          <div class={t.pop ? 'tier pop' : 'tier'}>
+            {t.pop && <span class="flag">Most Popular</span>}
+            <span class="name">{t.name}</span>
+            <div class="price">{t.price}<small>{t.unit}</small></div>
+            <p class="desc">{t.desc}</p>
+            <ul>{t.feats.map((f) => <li><span class="ck">✓</span> {f}</li>)}</ul>
+            <a class={t.pop ? 'btn btn-primary' : 'btn btn-line'} href={t.href}>{t.cta}</a>
+          </div>
+        ))}
+      </div>
+
+      <div class="cmp-wrap">
+        <table class="cmp">
+          <thead><tr><th>Compare plans</th><th>Free</th><th>Unlimited</th><th>Bureau</th></tr></thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr>
+                <td>{r[0]}</td>
+                <td set:html={cell(r[1])} />
+                <td set:html={cell(r[2])} />
+                <td set:html={cell(r[3])} />
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="pricing-note">All plans include pension declarations and payroll checklists. Enterprise pricing on application — <a href="mailto:support@thepaybureau.com?subject=Enterprise%20plan%20enquiry">get in touch</a>.</p>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>Ready to simplify your payroll bureau?</h2>
+      <p>Free forever for individuals. No credit card required.</p>
+      <a class="btn btn-primary btn-lg" href="https://app.thepaybureau.com/signup">Get started free</a>
+    </div>
+  </section>
+</BaseLayout>

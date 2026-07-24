@@ -8,4 +8,8 @@ export default defineConfig({
   site: 'https://thepaybureau.com',
   build: { format: 'directory' },
   compressHTML: true,
+  // Preserve old URLs / SEO (see plan §12)
+  redirects: {
+    '/pro': '/pricing',
+  },
 });
