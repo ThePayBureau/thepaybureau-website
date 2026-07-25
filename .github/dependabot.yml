@@ -1,0 +1,13 @@
+# Keeps npm dependencies (Astro, @fontsource, @vercel/analytics) patched.
+# Opens grouped update PRs weekly; review + merge to main to deploy.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      dependencies:
+        patterns:
+          - "*"
