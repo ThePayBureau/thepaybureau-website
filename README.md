@@ -1,12 +1,28 @@
-# React + Vite
+# BureauFlow website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Marketing website for **BureauFlow** — the UK payroll CRM, operated by BureauFlow Limited (registered in England and Wales, company number 17378706).
 
-Currently, two official plugins are available:
+Built with [Astro](https://astro.build) as a static site, deployed on Vercel.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Commands
 
-## Expanding the ESLint configuration
+| Command | Action |
+|---|---|
+| `npm install` | Install dependencies |
+| `npm run dev` | Start the local dev server at `localhost:4321` |
+| `npm run build` | Build the production site to `./dist/` |
+| `npm run preview` | Preview the production build locally |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Structure
+
+- `src/layouts/BaseLayout.astro` — shared header, footer, meta tags, Organization JSON-LD
+- `src/pages/` — all pages (home, pricing, roadmap, security, about, contact, privacy, terms, 404)
+- `src/styles/global.css` — design tokens and site-wide styles (no CSS framework)
+- `public/` — static assets, `sitemap.xml` and `robots.txt` (hand-maintained)
+- `reference/` — content archive of previous versions of the site (not built or shipped)
+
+## Notes
+
+- The canonical site URL is set in `astro.config.mjs` (`site`) and `src/layouts/BaseLayout.astro` (`const site`); `public/sitemap.xml` and `public/robots.txt` must be kept in sync manually.
+- Image assets in `public/` (logo, og-image, screenshots) still carry the previous ThePayBureau artwork and are pending replacement with BureauFlow branding.
+- The contact form posts to Web3Forms; the access key in `src/pages/contact.astro` must route to the current support inbox.

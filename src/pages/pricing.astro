@@ -6,19 +6,19 @@ const tiers = [
   { name: 'Free', mo: '£0', yr: '£0', unit: '/forever', pop: false,
     desc: 'For individual consultants. Up to 50 active payrolls.',
     feats: ['Up to 50 active payrolls', 'Deadline management & alerts', 'CSV import & export', 'Pension declarations', 'Payroll checklists', 'Email support'],
-    cta: 'Start with Free', href: 'https://app.thepaybureau.com/signup' },
+    cta: 'Start with Free', href: 'https://app.bureauflow.co.uk/signup' },
   { name: 'Unlimited', mo: '£24', yr: '£19', unit: '/user/mo', pop: true,
     desc: 'For payroll pros — unlimited payrolls and Penny AI.',
     feats: ['Everything in Free', 'Unlimited payrolls', 'Penny — AI payroll assistant', 'Training Module', 'Automated email reminders', 'Full audit trail'],
-    cta: 'Try Unlimited Free', href: 'https://app.thepaybureau.com/signup' },
+    cta: 'Try Unlimited Free', href: 'https://app.bureauflow.co.uk/signup' },
   { name: 'Bureau', mo: '£35', yr: '£29', unit: '/user/mo', pop: false,
     desc: 'For multi-person bureaux with team dashboards and insights.',
     feats: ['Everything in Unlimited', 'Bureau & team dashboard', 'Financial & client-health insights', 'Organisation chart', 'Priority support'],
-    cta: 'Start with Bureau', href: 'https://app.thepaybureau.com/signup' },
+    cta: 'Start with Bureau', href: 'https://app.bureauflow.co.uk/signup' },
   { name: 'Enterprise', mo: 'Custom', yr: 'Custom', unit: '', pop: false,
     desc: 'For larger firms — forecasting, benchmarking and full onboarding support.',
     feats: ['Everything in Bureau', 'Deep analytics & forecasting', 'Churn-risk & revenue forecasting', 'Bureau benchmarking & team reviews', 'Full migration & setup support'],
-    cta: 'Contact us', href: 'mailto:support@thepaybureau.com?subject=Enterprise%20plan%20enquiry' },
+    cta: 'Contact us', href: 'mailto:support@bureauflow.co.uk?subject=Enterprise%20plan%20enquiry' },
 ];
 
 const rows = [
@@ -38,7 +38,7 @@ const rows = [
 const cell = (v) => v === true ? '<span class="yes">✓</span>' : (v === false ? '—' : v);
 ---
 
-<BaseLayout title="Pricing — ThePayBureau" description="Simple, transparent pricing for UK payroll bureaus. Start free forever for individuals; upgrade to Unlimited or Bureau as you grow. Billed per active team member." path="/pricing">
+<BaseLayout title="Pricing — BureauFlow" description="Simple, transparent pricing for UK payroll bureaus. Start free forever for individuals; upgrade to Unlimited or Bureau as you grow. Billed per active team member." path="/pricing">
   <section class="page-hero">
     <div class="wrap">
       <span class="eyebrow">SIMPLE, TRANSPARENT PRICING</span>
@@ -85,7 +85,7 @@ const cell = (v) => v === true ? '<span class="yes">✓</span>' : (v === false ?
           </tbody>
         </table>
       </div>
-      <p class="pricing-note">All plans include pension declarations and payroll checklists. Enterprise pricing on application — <a href="mailto:support@thepaybureau.com?subject=Enterprise%20plan%20enquiry">get in touch</a>.</p>
+      <p class="pricing-note">All plans include pension declarations and payroll checklists. Enterprise pricing on application — <a href="mailto:support@bureauflow.co.uk?subject=Enterprise%20plan%20enquiry">get in touch</a>.</p>
     </div>
   </section>
 
@@ -93,7 +93,7 @@ const cell = (v) => v === true ? '<span class="yes">✓</span>' : (v === false ?
     <div class="wrap">
       <h2>Ready to simplify your payroll bureau?</h2>
       <p>Free forever for individuals. No credit card required.</p>
-      <a class="btn btn-primary btn-lg" href="https://app.thepaybureau.com/signup">Get started free</a>
+      <a class="btn btn-primary btn-lg" href="https://app.bureauflow.co.uk/signup">Get started free</a>
     </div>
   </section>
 </BaseLayout>
