@@ -18,11 +18,11 @@ Built with [Astro](https://astro.build) as a static site, deployed on Vercel.
 - `src/layouts/BaseLayout.astro` — shared header, footer, meta tags, Organization JSON-LD
 - `src/pages/` — all pages (home, pricing, roadmap, security, about, contact, privacy, terms, 404)
 - `src/styles/global.css` — design tokens and site-wide styles (no CSS framework)
-- `public/` — static assets, `sitemap.xml` and `robots.txt` (hand-maintained)
+- `public/` — static assets and `robots.txt` (the sitemap is generated at build time by `@astrojs/sitemap`)
 - `reference/` — content archive of previous versions of the site (not built or shipped)
 
 ## Notes
 
-- The canonical site URL is set in `astro.config.mjs` (`site`) and `src/layouts/BaseLayout.astro` (`const site`); `public/sitemap.xml` and `public/robots.txt` must be kept in sync manually.
+- The canonical site URL is set in `astro.config.mjs` (`site`) and `src/layouts/BaseLayout.astro` (`const site`); the sitemap (`/sitemap-index.xml`) is generated from `site` at build time, but the `Sitemap:` URL in `public/robots.txt` must be kept in sync manually.
 - Image assets in `public/` (logo, og-image, screenshots) still carry the previous ThePayBureau artwork and are pending replacement with BureauFlow branding.
 - The contact form posts to Web3Forms; the access key in `src/pages/contact.astro` must route to the current support inbox.

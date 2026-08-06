@@ -10,7 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/sitemap": "3.2.1",
     "@fontsource/dm-serif-display": "^5.1.0",
     "@fontsource/inter": "^5.1.0",
     "@fontsource/plus-jakarta-sans": "^5.1.0",

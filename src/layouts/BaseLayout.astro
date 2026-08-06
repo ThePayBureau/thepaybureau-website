@@ -24,7 +24,7 @@ const {
   path = '/',
 } = Astro.props;
 
-const site = 'https://www.thepaybureau.com';
+const site = 'https://www.bureauflow.co.uk';
 const canonical = new URL(path, site).href;
 const nav = [
   { label: 'Features', href: '/#features' },
@@ -38,7 +38,7 @@ const orgJsonLd = {
   name: 'BureauFlow',
   legalName: 'BureauFlow Limited',
   url: site,
-  logo: `${site}/fulllogo.png`,
+  logo: `${site}/bureauflow-logo-full.png`,
   email: 'support@bureauflow.co.uk',
   areaServed: 'GB',
 };
@@ -53,8 +53,9 @@ const orgJsonLd = {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content="index, follow" />
-    <link rel="icon" type="image/png" href="/logo.png" />
-    <link rel="apple-touch-icon" href="/logo.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/bureauflow-icon.svg" />
+    <link rel="apple-touch-icon" href="/bureauflow-apple-touch-icon-180.png" />
     <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="BureauFlow" />
@@ -62,11 +63,13 @@ const orgJsonLd = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={`${site}/og-image.png`} />
+    <meta property="og:image" content={`${site}/bureauflow-og-1200x630.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`${site}/og-image.png`} />
+    <meta name="twitter:image" content={`${site}/bureauflow-og-1200x630.png`} />
     <meta name="theme-color" content="#401D6C" />
     <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
   </head>
@@ -75,7 +78,7 @@ const orgJsonLd = {
     <header class="site-header">
       <div class="wrap nav">
         <a href="/" aria-label="BureauFlow home">
-          <img src="/fulllogo.png" alt="BureauFlow" class="logo" width="200" height="34" />
+          <img src="/bureauflow-logo-full.png" alt="BureauFlow" class="logo" width="138" height="30" />
         </a>
         <nav class="navlinks" aria-label="Primary">
           {nav.map((n) => <a href={n.href}>{n.label}</a>)}
@@ -95,7 +98,7 @@ const orgJsonLd = {
       <div class="wrap">
         <div class="foot-grid">
           <div class="foot-about">
-            <img src="/fulllogo.png" alt="BureauFlow" width="190" height="32" />
+            <img src="/bureauflow-logo-full.png" alt="BureauFlow" width="129" height="28" />
             <p>Built by payroll professionals, for payroll professionals.</p>
           </div>
           <div>
