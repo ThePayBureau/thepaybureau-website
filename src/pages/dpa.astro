@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Data Processing Agreement — BureauFlow" description="BureauFlow Limited's Data Processing Agreement under UK GDPR Article 28, covering personal data processed on behalf of customers." path="/dpa">
+  <section class="wrap prose">
+    <p style="padding-top:32px"><a href="/">← Back to home</a></p>
+    <h1 style="font-size:2rem">Data Processing Agreement</h1>
+    <p class="updated">Last updated: 6 August 2026</p>
+
+    <h2>1. Introduction and Incorporation</h2>
+    <p>This Data Processing Agreement (“DPA”) forms part of the <a href="/terms">Terms of Service</a> between BureauFlow Limited, a company registered in England and Wales (company number 17378706) (“BureauFlow”, “we”, “us”), and the customer (“Customer”, “you”).</p>
+    <p>It applies where you act as a data controller of personal data that you enter into the Service and BureauFlow processes that data on your behalf as a data processor under the UK General Data Protection Regulation (“UK GDPR”) and the Data Protection Act 2018.</p>
+
+    <h2>2. Definitions</h2>
+    <p>“Personal data”, “controller”, “processor”, “processing”, “data subject”, and “personal data breach” have the meanings given in the UK GDPR. “Customer Data” means personal data that you (or users acting on your behalf) enter into the Service and for which you act as controller — in particular, data relating to your payroll clients and their employees. “Service” has the meaning given in the Terms of Service.</p>
+
+    <h2>3. Details of Processing</h2>
+    <p><strong>Subject matter:</strong> the provision of the Service to the Customer.</p>
+    <p><strong>Duration:</strong> for the duration of the Customer’s agreement with BureauFlow, followed by the applicable post-termination retention period described in the Terms of Service.</p>
+    <p><strong>Nature and purpose:</strong> storage, organisation, retrieval, and display of Customer Data; deadline and compliance tracking; and optional AI-assisted features where used by the Customer — in each case solely to provide the Service.</p>
+    <p><strong>Data subjects:</strong> the Customer’s payroll clients’ contacts and those clients’ employees.</p>
+    <p><strong>Categories of personal data:</strong> may include names, contact information, employer and employee identifiers, payroll configuration data, PAYE references, and other information entered into the Service by the Customer.</p>
+
+    <h2>4. Processor Obligations</h2>
+    <p>BureauFlow will:</p>
+    <ul>
+      <li>process Customer Data only on the Customer’s documented instructions, which comprise the Terms of Service, this DPA, and the Customer’s use of the features of the Service, unless required to process otherwise by law (in which case we will inform you unless the law prevents it);</li>
+      <li>ensure that persons authorised to process Customer Data are bound by obligations of confidentiality;</li>
+      <li>implement appropriate technical and organisational measures as described in the Annex to this DPA, in accordance with Article 32 UK GDPR;</li>
+      <li>taking into account the nature of the processing, assist the Customer by appropriate technical and organisational measures in responding to data subject requests, and assist the Customer in ensuring compliance with its obligations under Articles 32 to 36 UK GDPR;</li>
+      <li>notify the Customer without undue delay after becoming aware of a personal data breach affecting Customer Data.</li>
+    </ul>
+
+    <h2>5. Sub-Processors</h2>
+    <p>The Customer provides general written authorisation for BureauFlow to engage sub-processors to support the provision of the Service. The authoritative current sub-processor list is maintained in Section 5 of our <a href="/privacy">Privacy Policy</a>.</p>
+    <p>We will update that list at least 14 days before a new sub-processor begins processing Customer Data. The Customer may object to a new sub-processor in writing to <a href="mailto:support@bureauflow.co.uk">support@bureauflow.co.uk</a> on reasonable data-protection grounds; if the objection cannot be resolved, the Customer may terminate its agreement in accordance with the Terms of Service.</p>
+    <p>Where we engage a sub-processor, we impose data protection obligations on it that are materially equivalent to those in this DPA, and we remain responsible for its performance.</p>
+
+    <h2>6. International Transfers</h2>
+    <p>Where Customer Data is transferred outside the United Kingdom, we ensure the transfer is protected by appropriate safeguards recognised under UK GDPR, including the ICO’s International Data Transfer Agreement or the UK Addendum to the EU Standard Contractual Clauses, or an applicable adequacy decision.</p>
+
+    <h2>7. Return and Deletion of Customer Data</h2>
+    <p>On termination of the Customer’s agreement, Customer Data remains available for export and is then deleted in accordance with the retention periods set out in the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>, except where law requires longer retention.</p>
+
+    <h2>8. Audit and Information</h2>
+    <p>BureauFlow will make available information reasonably necessary to demonstrate compliance with Article 28 UK GDPR. Where reasonably required, and subject to appropriate confidentiality obligations and reasonable notice, the parties may agree an audit process.</p>
+
+    <h2>9. Liability and Governing Law</h2>
+    <p>Liability under this DPA is subject to the limitations and exclusions of liability in the Terms of Service, except where applicable data protection law provides otherwise. This DPA is governed by the laws of England and Wales, and the courts of England and Wales have exclusive jurisdiction.</p>
+
+    <h2>Annex: Technical and Organisational Measures</h2>
+    <ul>
+      <li>Encryption in transit (TLS 1.2+, HTTPS with strict transport security) and at rest (AES-256)</li>
+      <li>Logical tenant isolation, with database row-level security policies as a second layer of defence</li>
+      <li>Access controls: strong password requirements, email verification, role-based permissions, session tokens with automatic rotation, and immediate deactivation/revocation of user access</li>
+      <li>Audit logging of changes to client records, payroll configurations, and settings</li>
+      <li>Encrypted, redundant daily backups with documented restore procedures tested via live recovery drill</li>
+      <li>Automated dependency vulnerability scanning and a scheduled weekly security audit</li>
+      <li>Security headers (Content Security Policy, HSTS, clickjacking protection) on every response</li>
+      <li>Rate limiting on authentication and sensitive endpoints, and CSRF protection on data-changing requests</li>
+    </ul>
+    <p>Questions about this DPA can be sent to <a href="mailto:support@bureauflow.co.uk">support@bureauflow.co.uk</a>.</p>
+  </section>
+</BaseLayout>
