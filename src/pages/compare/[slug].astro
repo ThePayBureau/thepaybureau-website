@@ -143,7 +143,7 @@ const cells = (r: { bureauflow: CellValue; them: CellValue }): CellValue[] => [
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">WHY BUREAUS CHOOSE US</span>
-        <h2>What BureauFlow does differently</h2>
+        <h2>Three reasons bureaus pick BureauFlow</h2>
         <p>Purpose-built as a payroll CRM for UK bureaus — the practice layer, not the payroll engine.</p>
       </div>
       <div class="grid-cards">
@@ -161,26 +161,9 @@ const cells = (r: { bureauflow: CellValue; them: CellValue }): CellValue[] => [
   <section class="section-lg">
     <div class="wrap">
       <div class="sec-head">
-        <span class="eyebrow">CREDIT WHERE IT’S DUE</span>
-        <h2>Where {them} is strong</h2>
-        <p>We’d rather you picked the right tool than the one with the louder page.</p>
-      </div>
-      <ul class="list-check">
-        {c.credit.map((i) => (
-          <li>
-            <svg class="ck" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7.5 8L3 9"/></svg>
-            {i}
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <section class="section-lg" style="background:var(--wash)">
-    <div class="wrap">
-      <div class="sec-head">
         <span class="eyebrow">SIDE BY SIDE</span>
         <h2>Feature comparison</h2>
+        <p>Everything below comes from each company’s own published material. Sources are listed at the foot of the page.</p>
       </div>
       <div class="cmp-wrap">
         <table class="cmp">
@@ -223,7 +206,7 @@ const cells = (r: { bureauflow: CellValue; them: CellValue }): CellValue[] => [
     </div>
   </section>
 
-  <section class="section-lg">
+  <section class="section-lg" style="background:var(--wash)">
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">PRICING</span>
@@ -238,9 +221,57 @@ const cells = (r: { bureauflow: CellValue; them: CellValue }): CellValue[] => [
         <div class="scard">
           <h3>{them}</h3>
           <p>{c.pricing.them}</p>
-          <p class="rnote">{c.pricing.note}</p>
         </div>
       </div>
+      <p class="pricing-note">{c.pricing.note}</p>
+
+      {c.costExample && (
+        <>
+          <div class="sec-head" style="margin-top:56px">
+            <h3>What that means a year</h3>
+            <p>{c.costExample.intro}</p>
+          </div>
+          <div class="cmp-wrap">
+            <table class="cmp">
+              <thead>
+                <tr>
+                  <th scope="col">Team size</th>
+                  <th scope="col">BureauFlow</th>
+                  <th scope="col">{them}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {c.costExample.rows.map((r) => (
+                  <tr>
+                    <th scope="row">{r.label}</th>
+                    <td>{r.bureauflow}</td>
+                    <td>{r.them}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p class="pricing-note">{c.costExample.footnote}</p>
+        </>
+      )}
+    </div>
+  </section>
+
+  <section class="section-lg">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">CREDIT WHERE IT’S DUE</span>
+        <h2>Where {them} is strong</h2>
+        <p>We’d rather you picked the right tool than the one with the louder page.</p>
+      </div>
+      <ul class="list-check">
+        {c.credit.map((i) => (
+          <li>
+            <svg class="ck" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7.5 8L3 9"/></svg>
+            {i}
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
