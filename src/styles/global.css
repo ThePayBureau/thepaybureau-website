@@ -261,4 +261,24 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;letter-spacing:-.03e
 .notfound h1{font-size:1.8rem;margin:8px 0 12px}
 .notfound p{color:var(--ink-2);margin-bottom:24px}
 
+/* ---- comparison pages ---- */
+.crumbs{font-family:var(--font-ui);font-size:.85rem;color:var(--ink-3);padding-top:24px}
+.crumbs a{color:var(--brand);font-weight:600}
+/* three-state matrix cells — pairs with the existing .cmp .yes */
+.cmp .no{color:var(--red);font-weight:700}
+.cmp .unk{font-family:var(--font-ui);font-size:.8rem;font-weight:600;color:var(--ink-3)}
+/* category divider rows. Must be <td colspan>, not <th> — .cmp td:not(:first-child) centres. */
+.cmp tr.cat td{background:var(--wash);font-family:var(--font-ui);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.cmp tbody tr.cat:hover td{background:var(--wash)}
+.cmp tbody th{font-weight:inherit;text-align:left}
+.cmp th:first-child,.cmp td:first-child{min-width:15rem}
+.cmp .rnote{display:block;font-size:.8rem;color:var(--ink-3);margin-top:3px}
+/* two-column at-a-glance / verdict */
+.grid-cards.two{grid-template-columns:repeat(2,1fr)}
+.scard.mine{border-color:var(--brand);box-shadow:0 22px 46px -30px rgba(64,29,108,.5)}
+.scard .list-check{grid-template-columns:1fr;max-width:none;margin:14px 0 0}
+/* Mandatory: .grid-cards.two (0,2,0) beats the .grid-cards rule above (0,1,0)
+   regardless of source order, so the mobile stack must be repeated here. */
+@media(max-width:860px){.grid-cards.two{grid-template-columns:1fr}}
+
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}

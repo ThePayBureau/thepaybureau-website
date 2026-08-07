@@ -1,0 +1,118 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { comparisons, assertAllValid, formatDate, SHARED } from '../../data/comparisons';
+
+assertAllValid();
+
+const base = Astro.site ?? new URL('https://www.bureauflow.co.uk');
+const url = (p: string) => new URL(p, base).href;
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: url('/') },
+    { '@type': 'ListItem', position: 2, name: 'Compare', item: url('/compare/') },
+  ],
+};
+
+// The hub stays out of the index while every comparison on it is a draft —
+// there is nothing here worth ranking yet.
+const allDraft = comparisons.every((c) => c.status === 'provisional');
+---
+
+<BaseLayout
+  title="Compare payroll bureau platforms — BureauFlow"
+  description="Honest, sourced comparisons of BureauFlow against other UK payroll bureau management platforms — features, pricing and who each one suits."
+  path="/compare/"
+  jsonLd={breadcrumbLd}
+  noindex={allDraft}
+>
+  {allDraft && (
+    <div class="wrap">
+      <p class="note-flag">
+        <strong>Draft — not yet verified.</strong> Every comparison listed here is
+        still provisional. This page is excluded from search engines until at least
+        one has been verified against published sources.
+      </p>
+    </div>
+  )}
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a> / Compare
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">COMPARISONS</span>
+      <h1>How BureauFlow compares</h1>
+      <p>
+        Straight comparisons against other platforms that run the practice around
+        your payroll engine — including where the other one is the better fit.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-lg">
+    <div class="wrap">
+      <div class="grid-cards two">
+        {comparisons.map((c) => (
+          <div class="scard">
+            <h3>BureauFlow vs {c.competitor.name}</h3>
+            <p>{c.hubBlurb}</p>
+            <p class="rnote">Facts checked {formatDate(c.factsChecked)}{c.status === 'provisional' && ' · draft'}</p>
+            <p>
+              <a class="btn btn-line" href={`/compare/${c.slug}/`}>
+                Read the comparison →
+              </a>
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-lg" style="background:var(--wash)">
+    <div class="wrap">
+      <div class="prose">
+        <h2>How we compare</h2>
+        <p>
+          Every claim we make about another product comes from that company’s own
+          publicly available material, read and dated. We don’t work from
+          second-hand summaries, and we don’t guess.
+        </p>
+        <h3>What the marks mean</h3>
+        <ul>
+          <li><strong>✓ offered</strong> — the company’s own material says they offer it.</li>
+          <li><strong>✕ not offered</strong> — the company’s own material says they don’t.</li>
+          <li>
+            <strong>“Not stated”</strong> — their published material doesn’t
+            establish it either way. It does <em>not</em> mean the feature is
+            unavailable, and we’d rather say so than put a cross next to something
+            we haven’t checked.
+          </li>
+        </ul>
+        <p>
+          Every comparison carries the date it was checked. Products change, and a
+          comparison is only ever accurate as at its date — check with the other
+          company directly before making a decision.
+        </p>
+        <p>
+          {SHARED.correctionNote}{' '}
+          <a href={`mailto:${SHARED.correctionEmail}?subject=Correction%20to%20a%20BureauFlow%20comparison`}>{SHARED.correctionEmail}</a>
+        </p>
+        <p>{SHARED.trademarkNote}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>Ready to simplify your payroll bureau?</h2>
+      <p>Free forever for individuals. No credit card required.</p>
+      <a class="btn btn-primary btn-lg" href={SHARED.signupUrl}>Get started free</a>
+    </div>
+  </section>
+</BaseLayout>
