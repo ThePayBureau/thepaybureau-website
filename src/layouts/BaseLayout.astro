@@ -16,13 +16,26 @@ export interface Props {
   title?: string;
   description?: string;
   path?: string;
+  /** Extra JSON-LD graphs, emitted after the Organization graph. */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** Set while a page is provisional/unpublished. */
+  noindex?: boolean;
 }
 
 const {
   title = 'BureauFlow — The Payroll CRM That Runs Your Bureau For You',
   description = 'The UK’s first payroll CRM, powered by AI. Track every HMRC deadline, manage every client, and tick off every checklist — all from one dashboard. Free forever for individuals.',
   path = '/',
+  jsonLd,
+  noindex = false,
 } = Astro.props;
+
+const graphs = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+
+// JSON-LD inside <script> must not be able to close the tag. orgJsonLd is
+// static so this never mattered; comparison data is externally supplied.
+const ld = (o: unknown) =>
+  JSON.stringify(o).replace(/</g, '\\u003c').replace(/[\u2028\u2029]/g, '');
 
 const site = 'https://www.bureauflow.co.uk';
 const canonical = new URL(path, site).href;
@@ -52,7 +65,7 @@ const orgJsonLd = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/bureauflow-icon.svg" />
     <link rel="apple-touch-icon" href="/bureauflow-apple-touch-icon-180.png" />
@@ -71,7 +84,8 @@ const orgJsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={`${site}/bureauflow-og-1200x630.png`} />
     <meta name="theme-color" content="#401D6C" />
-    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+    <script type="application/ld+json" set:html={ld(orgJsonLd)} />
+    {graphs.map((g) => <script type="application/ld+json" set:html={ld(g)} />)}
   </head>
   <body>
     <a href="#main" class="skip">Skip to content</a>
@@ -107,6 +121,7 @@ const orgJsonLd = {
             <a href="/pricing">Pricing</a>
             <a href="/roadmap">Roadmap</a>
             <a href="/security">Security</a>
+            <a href="/compare/">Compare</a>
           </div>
           <div>
             <h4>Company</h4>

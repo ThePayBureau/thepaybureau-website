@@ -1,0 +1,374 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  comparisons,
+  assertAllValid,
+  others,
+  formatDate,
+  SHARED,
+  type Comparison,
+  type CellValue,
+} from '../../data/comparisons';
+
+export function getStaticPaths() {
+  // Fails the build if any comparison makes an unsourced claim about a
+  // competitor. See assertValid() in src/data/comparisons.ts.
+  assertAllValid();
+  return comparisons.map((c) => ({ params: { slug: c.slug }, props: { c } }));
+}
+
+interface Props { c: Comparison }
+const { c } = Astro.props;
+const them = c.competitor.name;
+const checked = formatDate(c.factsChecked);
+const alt = others(c.slug);
+
+const base = Astro.site ?? new URL('https://www.bureauflow.co.uk');
+const url = (p: string) => new URL(p, base).href;
+const path = `/compare/${c.slug}/`;
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: url('/') },
+    { '@type': 'ListItem', position: 2, name: 'Compare', item: url('/compare/') },
+    { '@type': 'ListItem', position: 3, name: `BureauFlow vs ${them}`, item: url(path) },
+  ],
+};
+
+// FAQPage is opt-in per comparison — see the note on `faqSchema`. Google
+// restricted FAQ rich results to government/health sites in 2023, so this
+// buys nothing visual and is another thing that can drift from the page.
+const faqLd = c.faqSchema
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: c.faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    }
+  : null;
+
+const graphs = faqLd ? [breadcrumbLd, faqLd] : [breadcrumbLd];
+const draft = c.status === 'provisional';
+
+// Renders both columns identically — the cell logic is written exactly once.
+const cells = (r: { bureauflow: CellValue; them: CellValue }): CellValue[] => [
+  r.bureauflow,
+  r.them,
+];
+---
+
+<BaseLayout
+  title={c.meta.title}
+  description={c.meta.description}
+  path={path}
+  jsonLd={graphs}
+  noindex={draft}
+>
+  {draft && (
+    <div class="wrap">
+      <p class="note-flag">
+        <strong>Draft — not yet verified.</strong> Details about {them} on this page
+        are provisional and have not been confirmed against their published
+        materials. This page is excluded from search engines until it is.
+      </p>
+    </div>
+  )}
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a> / <a href="/compare/">Compare</a> / BureauFlow vs {them}
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">COMPARISON</span>
+      <h1>BureauFlow vs {them}</h1>
+      <p>{c.hubBlurb}</p>
+      <div class="badges">
+        <span class="b">Facts checked {checked}</span>
+        <span class="b">Both sit alongside your payroll software</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="guarantee">
+        <p>{SHARED.categoryNote}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">AT A GLANCE</span>
+        <h2>The short version</h2>
+      </div>
+      <div class="grid-cards two">
+        <div class="scard mine">
+          <h3>BureauFlow</h3>
+          <ul class="list-check">
+            {c.atAGlance.bureauflow.map((i) => (
+              <li>
+                <svg class="ck" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7.5 8L3 9"/></svg>
+                {i}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="scard">
+          <h3>{them}</h3>
+          <p>{c.competitor.positioning}</p>
+          <ul class="list-check">
+            {c.atAGlance.them.map((i) => (
+              <li>
+                <svg class="ck" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7.5 8L3 9"/></svg>
+                {i}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-lg" style="background:var(--wash)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">WHY BUREAUS CHOOSE US</span>
+        <h2>What BureauFlow does differently</h2>
+        <p>Purpose-built as a payroll CRM for UK bureaus — the practice layer, not the payroll engine.</p>
+      </div>
+      <div class="grid-cards">
+        {c.reasons.map((r) => (
+          <div class="scard">
+            <div class="ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={r.icon} /></div>
+            <h3>{r.title}</h3>
+            <p>{r.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-lg">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">CREDIT WHERE IT’S DUE</span>
+        <h2>Where {them} is strong</h2>
+        <p>We’d rather you picked the right tool than the one with the louder page.</p>
+      </div>
+      <ul class="list-check">
+        {c.credit.map((i) => (
+          <li>
+            <svg class="ck" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7.5 8L3 9"/></svg>
+            {i}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-lg" style="background:var(--wash)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">SIDE BY SIDE</span>
+        <h2>Feature comparison</h2>
+      </div>
+      <div class="cmp-wrap">
+        <table class="cmp">
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              <th scope="col">BureauFlow</th>
+              <th scope="col">{them}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {c.matrix.map((sec) => (
+              <>
+                <tr class="cat"><td colspan="3">{sec.category}</td></tr>
+                {sec.rows.map((r) => (
+                  <tr>
+                    <th scope="row">
+                      {r.label}
+                      {r.note && <span class="rnote">{r.note}</span>}
+                    </th>
+                    {cells(r).map((v) => (
+                      <td>
+                        {v === true && <span class="yes" role="img" aria-label="Offered">✓</span>}
+                        {v === false && <span class="no" role="img" aria-label="Not offered">✕</span>}
+                        {v === null && <span class="unk">Not stated</span>}
+                        {typeof v === 'string' && v}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="pricing-note">
+        ✓ offered · ✕ not offered · “Not stated” means we could not verify it from
+        {' '}{them}’s public materials on {checked} — it does not mean it is unavailable.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-lg">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">PRICING</span>
+        <h2>What each one costs</h2>
+      </div>
+      <div class="grid-cards two">
+        <div class="scard mine">
+          <h3>BureauFlow</h3>
+          <p>{c.pricing.bureauflow}</p>
+          <p><a class="btn btn-line" href="/pricing">See full pricing</a></p>
+        </div>
+        <div class="scard">
+          <h3>{them}</h3>
+          <p>{c.pricing.them}</p>
+          <p class="rnote">{c.pricing.note}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-lg" style="background:var(--wash)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">HONEST ANSWER</span>
+        <h2>Who each one suits</h2>
+      </div>
+      <div class="grid-cards two">
+        <div class="scard mine">
+          <h3>Choose BureauFlow if…</h3>
+          <ul class="list-check">
+            {c.bestFor.bureauflow.map((i) => (
+              <li>
+                <svg class="ck" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7.5 8L3 9"/></svg>
+                {i}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="scard">
+          <h3>Choose {them} if…</h3>
+          <ul class="list-check">
+            {c.bestFor.them.map((i) => (
+              <li>
+                <svg class="ck" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7.5 8L3 9"/></svg>
+                {i}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-lg">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">SWITCHING</span>
+        <h2>Moving to BureauFlow</h2>
+        <p>No migration project, no cutover weekend.</p>
+      </div>
+      <div class="steps">
+        {c.migration.map((m, i) => (
+          <div class="step">
+            <div class="n">{i + 1}</div>
+            <h3>{m.title}</h3>
+            <p>{m.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-lg" style="background:var(--wash)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">FREQUENTLY ASKED QUESTIONS</span>
+        <h2>Common questions</h2>
+      </div>
+      <div class="faq">
+        {c.faqs.map((f, i) => (
+          <details open={i === 0}>
+            <summary>{f.q}<span class="chev">▾</span></summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-lg">
+    <div class="wrap">
+      <div class="prose">
+        <h2>How we compiled this</h2>
+        <p class="updated">Facts checked: {checked}</p>
+        <p>
+          Information about {them} is taken from their own publicly available
+          material and was checked on {checked}. Where their material does not
+          establish something either way, we mark it “Not stated” rather than
+          guessing. Products change — please check with {them} directly before
+          making a decision.
+        </p>
+        {c.sources.length > 0 ? (
+          <>
+            <h3>Sources</h3>
+            <ul>
+              {c.sources.map((s) => (
+                <li>
+                  <a href={s.url} rel="nofollow noopener" target="_blank">{s.description}</a>
+                  {' '}— accessed {formatDate(s.accessed)}
+                  {s.kind === 'third-party' && ' (third-party source)'}
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p><em>No sources have been recorded yet. This is why the page is marked draft.</em></p>
+        )}
+        <p>
+          {SHARED.correctionNote}{' '}
+          <a href={`mailto:${SHARED.correctionEmail}?subject=Correction%20to%20BureauFlow%20vs%20${encodeURIComponent(them)}`}>{SHARED.correctionEmail}</a>
+        </p>
+        <p>{SHARED.trademarkNote}</p>
+      </div>
+    </div>
+  </section>
+
+  {alt.length > 0 && (
+    <div class="wrap">
+      <p class="pricing-note">
+        Looking at other payroll practice platforms?{' '}
+        {alt.map((o, i) => (
+          <>
+            {i > 0 && ' · '}
+            <a href={`/compare/${o.slug}/`}>Compare BureauFlow with {o.competitor.name} →</a>
+          </>
+        ))}
+      </p>
+    </div>
+  )}
+
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>Ready to simplify your payroll bureau?</h2>
+      <p>Free forever for individuals. No credit card required.</p>
+      <a class="btn btn-primary btn-lg" href={SHARED.signupUrl}>Get started free</a>
+    </div>
+  </section>
+</BaseLayout>

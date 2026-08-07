@@ -7,6 +7,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "astro build && node scripts/check-compare.mjs",
+    "check:compare": "node scripts/check-compare.mjs",
     "astro": "astro"
   },
   "dependencies": {
