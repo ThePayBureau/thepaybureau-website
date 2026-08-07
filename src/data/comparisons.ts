@@ -183,86 +183,117 @@ export const SHARED = {
  * Resolve before flipping either comparison to 'verified'.
  */
 export const BUREAUFLOW_TODO = [
-  'Payroll change capture — is there a structured intake for mid-period changes?',
-  'Cut-off / pay-run scheduling — beyond deadline alerts, is there cycle scheduling?',
+  'Structured payroll change capture — is there an intake for mid-period changes?',
+  'Cut-off / pay-cycle scheduling — beyond deadline alerts, is there cycle scheduling?',
+  'Workflow & task management — do checklists cover this, or is it a separate gap?',
   'Client portal — anything client-facing today, or is White Labelling (Enterprise, planned) the nearest thing?',
   'Client helpdesk / ticketing — any query inbox, or is that out of scope?',
-  'Client invoicing — Advanced Fee Management (Enterprise) is fee management; does it raise invoices?',
+  'Client invoicing & billing — Advanced Fee Management (Enterprise) is fee management; does it raise invoices?',
+  'Integrations with payroll systems — any today, or is CSV the only route in?',
+  'API access — is there a public API on any tier?',
 ] as const;
 
-const bureauflowMatrix = (): MatrixSection[] => [
-  {
-    category: 'Category & fit',
-    rows: [
-      {
-        label: 'Calculates payroll / files RTI with HMRC',
-        note: 'Both products are practice layers, not payroll engines.',
-        bureauflow: false,
-        // Their own positioning implies this, but implication isn't evidence.
-        them: null,
-        themSources: undefined,
-      },
-      { label: 'Sits alongside your existing payroll software', bureauflow: true, them: null },
-      { label: 'Built specifically for UK payroll bureaus', bureauflow: true, them: null },
-    ],
-  },
-  {
-    category: 'Getting started',
-    rows: [
-      { label: 'Free plan', bureauflow: 'Free forever, up to 50 active payrolls', them: null },
-      { label: 'Sign up without talking to sales', bureauflow: true, them: null },
-      { label: 'Pricing published on the website', bureauflow: 'All tiers except Enterprise', them: null },
-      { label: 'Unlimited clients', bureauflow: true, them: null },
-    ],
-  },
-  {
-    category: 'Running the practice',
-    rows: [
-      { label: 'Client & payroll register', bureauflow: true, them: null },
-      { label: 'HMRC deadline tracking & alerts', bureauflow: true, them: null },
-      { label: 'Payroll checklists', bureauflow: true, them: null },
-      { label: 'Pension declarations', bureauflow: true, them: null },
-      { label: 'CSV import & export', bureauflow: true, them: null },
-      { label: 'Audit trail', bureauflow: 'Basic on Free, full on Unlimited and above', them: null },
-      { label: 'Automated email reminders', bureauflow: 'Unlimited plan and above', them: null },
-      { label: 'Payroll change capture', bureauflow: null, them: null },
-      { label: 'Cut-off & pay-run scheduling', bureauflow: null, them: null },
-      { label: 'Client portal', bureauflow: null, them: null },
-      { label: 'Client helpdesk / query ticketing', bureauflow: null, them: null },
-    ],
-  },
-  {
-    category: 'Commercials',
-    rows: [
-      { label: 'Live dashboard metrics', bureauflow: true, them: null },
-      { label: 'Bureau & team dashboard', bureauflow: 'Bureau plan and above', them: null },
-      { label: 'MRR & revenue per payroll', bureauflow: 'Bureau plan and above', them: null },
-      { label: 'Capacity & service-delivery insights', bureauflow: 'Bureau plan and above', them: null },
-      { label: 'Churn-risk scoring', bureauflow: 'Enterprise plan', them: null },
-      { label: 'Capacity & revenue forecasting', bureauflow: 'Enterprise plan', them: null },
-      { label: 'Peer benchmarking', bureauflow: 'Enterprise plan', them: null },
-      { label: 'Client invoicing', bureauflow: null, them: null },
-    ],
-  },
-  {
-    category: 'AI',
-    rows: [
-      {
-        label: 'Natural-language assistant over your own book',
-        note: 'BureauFlow calls this Penny.',
-        bureauflow: 'Unlimited plan and above',
-        them: null,
-      },
-    ],
-  },
-  {
-    category: 'Transparency',
-    rows: [
-      { label: 'Public product roadmap', bureauflow: true, them: null },
-      { label: 'Public pricing page', bureauflow: true, them: null },
-    ],
-  },
-];
+/** A competitor's answers, keyed by row id. Anything not listed stays `null`. */
+export type ThemCells = Record<string, { them: CellValue; themSources?: string[] }>;
+
+/**
+ * The matrix. BureauFlow's column is defined once here; each comparison supplies
+ * only its own competitor column, keyed by row id. Rows neither side can
+ * evidence are omitted rather than shown as a double "Not stated" — an empty
+ * row helps nobody and reads as padding.
+ */
+const buildMatrix = (t: ThemCells): MatrixSection[] => {
+  const row = (id: string, label: string, bureauflow: CellValue, note?: string): MatrixRow => ({
+    label,
+    bureauflow,
+    them: t[id]?.them ?? null,
+    themSources: t[id]?.themSources,
+    ...(note ? { note } : {}),
+  });
+
+  return [
+    {
+      category: 'Category & fit',
+      rows: [
+        row('rti', 'Calculates payroll / files RTI with HMRC', false,
+          'Both products are practice layers, not payroll engines.'),
+        row('alongside', 'Sits alongside your existing payroll software', true),
+        row('anyengine', 'Works with any payroll engine (Sage, BrightPay, IRIS…)', true),
+        row('ukbureau', 'Built for UK payroll bureaus', true),
+      ],
+    },
+    {
+      category: 'Getting started & pricing',
+      rows: [
+        row('free', 'Free plan', 'Free forever, up to 50 active payrolls'),
+        row('selfserve', 'Sign up without talking to sales', true),
+        row('pubprice', 'Pricing published on the website', 'All tiers except Enterprise'),
+        row('unlimitedclients', 'Unlimited clients', true),
+        row('entrylevel', 'Entry price per user, billed annually', 'Free, then £19/user/mo'),
+      ],
+    },
+    {
+      category: 'Running the practice',
+      rows: [
+        row('register', 'Client & payroll register', true),
+        row('deadlines', 'HMRC deadline tracking & alerts', true),
+        row('scheduling', 'Cut-off & pay-cycle scheduling', null),
+        row('checklists', 'Payroll checklists', true),
+        row('tasks', 'Workflow & task management', null),
+        row('changecapture', 'Structured payroll change capture', null),
+        row('pension', 'Pension declarations', true),
+        row('csv', 'CSV import & export', true),
+        row('audit', 'Audit trail', 'Basic on Free, full on Unlimited and above'),
+        row('reminders', 'Automated email reminders', 'Unlimited plan and above'),
+        row('visibility', 'Real-time status across every payroll', true),
+      ],
+    },
+    {
+      category: 'Working with clients',
+      rows: [
+        row('portal', 'Client portal for submitting changes', null),
+        row('helpdesk', 'Client helpdesk / query ticketing', null),
+        row('whitelabel', 'White-labelling', 'Planned — Enterprise'),
+        row('feedback', 'Client feedback / reviews', 'Planned — client surveys & NPS'),
+      ],
+    },
+    {
+      category: 'Commercials & insight',
+      rows: [
+        row('dashboard', 'Live dashboard metrics', true),
+        row('reporting', 'Data reporting', true),
+        row('teamdash', 'Bureau & team dashboard', 'Bureau plan and above'),
+        row('mrr', 'MRR & revenue per payroll', 'Bureau plan and above'),
+        row('capacity', 'Capacity & service-delivery insights', 'Bureau plan and above'),
+        row('churn', 'Churn-risk scoring', 'Enterprise plan'),
+        row('forecasting', 'Capacity & revenue forecasting', 'Enterprise plan'),
+        row('benchmarking', 'Peer benchmarking', 'Enterprise plan'),
+        row('invoicing', 'Client invoicing & billing', null),
+      ],
+    },
+    {
+      category: 'Integrations',
+      rows: [
+        row('integrations', 'Integrations with payroll systems', null),
+        row('api', 'API access', null),
+      ],
+    },
+    {
+      category: 'AI',
+      rows: [
+        row('ai', 'Natural-language assistant over your own book', 'Unlimited plan and above',
+          'BureauFlow calls this Penny.'),
+      ],
+    },
+    {
+      category: 'Transparency',
+      rows: [
+        row('roadmap', 'Public product roadmap', true),
+        row('pubpricing', 'Public pricing page', true),
+      ],
+    },
+  ];
+};
 
 /* ═══════════════════════════════════════════════════════════════════════════
    PROVISIONAL ENTRIES
@@ -349,12 +380,10 @@ export const comparisons: Comparison[] = [
       legalName: 'Changepen Ltd',
       companyNumber: '12578539', // audit trail only — not rendered
       website: 'https://www.changepen.co.uk',
-      // PROVISIONAL — paraphrase from a search result, NOT a verified quote.
-      // Replace with verbatim copy from their site and set positioningSource.
-      positioning:
-        'A payroll operations platform for bureaus and accountancy firms, ' +
-        'positioned as sitting alongside your existing payroll software.',
-      pricingModel: 'unknown',
+      // Verbatim, from their payroll bureau solution page.
+      positioning: 'Changepen manages the operation around payroll, not the payroll itself.',
+      positioningSource: 'cp-bureaus',
+      pricingModel: 'published',
     },
 
     meta: {
@@ -371,27 +400,36 @@ export const comparisons: Comparison[] = [
 
     hubBlurb:
       'Both run the practice around your payroll engine rather than replacing it. ' +
-      'Where they differ is how you start, and what the platform tells you about ' +
-      'the commercials of your bureau.',
+      'Changepen leans into the client-facing side — portals, helpdesk, ' +
+      'white-labelling. BureauFlow leans into how you start and what the platform ' +
+      'tells you about the commercials of your bureau.',
 
     atAGlance: {
       bureauflow: [
         'Free forever for up to 50 active payrolls',
         'Sign up and be running the same afternoon',
         'Bureau commercials — MRR, capacity, churn risk',
+        'Penny, an AI assistant across your whole book',
       ],
       them: [
-        'Payroll operations platform for bureaus and accountancy firms',
-        'Also sits alongside your existing payroll software',
-        'Feature detail not yet verified — see the note above',
+        'Client portal, helpdesk and white-labelling on the Business plan',
+        'Structured change capture to replace email instructions',
+        'From £25 per user per month billed annually — no free plan',
+        'Demo-led: “we always start with a quick demo”',
       ],
     },
 
     credit: [
-      'Operating in this category since 2020 — longer than BureauFlow has existed.',
-      'Publishes pricing openly, which is rarer in this market than it should be.',
-      'Positions explicitly as a layer alongside your payroll engine, which is the ' +
-        'right architecture for a bureau and the same call we made.',
+      'Their client-facing layer is genuinely deeper than ours. Customer portals, a ' +
+        'structured client helpdesk, customer reviews and white-labelling all ship on ' +
+        'the Business plan. BureauFlow has no equivalent today.',
+      'Structured change capture is the heart of their product — replacing email as ' +
+        'the channel clients send starters, leavers and salary changes through, with ' +
+        'every submission logged, timestamped and linked to a payroll.',
+      'They publish a named customer outcome: Cheney Payroll Services took on 200 ' +
+        'additional payrolls without adding staff after adopting Changepen.',
+      'They are explicit about working alongside Sage, BrightPay, IRIS and Moneysoft, ' +
+        'and they publish their pricing — both rarer in this market than they should be.',
     ],
 
     reasons: REASONS_SHARED,
@@ -403,9 +441,12 @@ export const comparisons: Comparison[] = [
         'You want the commercial picture — revenue per payroll, churn risk, capacity',
         'You’d use an AI assistant to answer questions across your book',
       ],
-      // Build-enforced ≥2 before this page can go 'verified'.
       them: [
-        'They’ve been established in this category for longer',
+        'Client instructions arriving by email are your single biggest source of risk',
+        'You want clients submitting changes through a portal rather than emailing you',
+        'You need a structured helpdesk with an audit trail for client payroll queries',
+        'You want to white-label the client-facing experience under your own brand',
+        'You’re a multi-office firm and need API access to your payroll systems',
       ],
     },
 
@@ -418,7 +459,11 @@ export const comparisons: Comparison[] = [
       },
       {
         q: 'Can I try BureauFlow without a demo call?',
-        a: 'Yes. The Free plan covers unlimited clients and up to 50 active payrolls, forever, with no card required. You can sign up and import your book without speaking to anyone.',
+        a: 'Yes. The Free plan covers unlimited clients and up to 50 active payrolls, forever, with no card required. You can sign up and import your book without speaking to anyone. Changepen state that they start every engagement with a demo, and their published plans start at £25 per user per month billed annually.',
+      },
+      {
+        q: 'Does BureauFlow have a client portal like Changepen?',
+        a: 'No. Changepen’s Business plan includes customer portals, a client helpdesk and white-labelling, and that client-facing layer is deeper than ours today. If clients submitting changes through a portal is the problem you’re solving, that’s a fair reason to choose them. BureauFlow focuses on the bureau side — deadlines, checklists, and the commercial picture across your book.',
       },
       {
         q: 'What does BureauFlow cost?',
@@ -430,17 +475,85 @@ export const comparisons: Comparison[] = [
       },
     ],
 
-    matrix: bureauflowMatrix(),
+    // Every cell below traces to one of the four sources at the end of this
+    // entry. Rows absent from this map stay `null` — that includes features
+    // Changepen has a nav link for (document storage, payroll manuals, contact
+    // directory) but whose page content we have not read. A nav label is not a
+    // source.
+    matrix: buildMatrix({
+      rti: { them: false, themSources: ['cp-bureaus'] },
+      alongside: { them: true, themSources: ['cp-bureaus', 'cp-guide'] },
+      anyengine: { them: true, themSources: ['cp-bureaus', 'cp-guide'] },
+      ukbureau: { them: true, themSources: ['cp-bureaus'] },
+
+      free: { them: false, themSources: ['cp-pricing'] },
+      selfserve: { them: 'Demo-led — “we always start with a quick demo”', themSources: ['cp-pricing'] },
+      pubprice: { them: 'Team and Business published; Enterprise custom', themSources: ['cp-pricing'] },
+      unlimitedclients: { them: 'Unlimited usage limits on Enterprise', themSources: ['cp-pricing'] },
+      entrylevel: { them: '£25/user/mo (Team)', themSources: ['cp-pricing'] },
+
+      register: { them: 'Payroll Overviews (Team plan and above)', themSources: ['cp-pricing'] },
+      scheduling: { them: true, themSources: ['cp-pricing', 'cp-guide'] },
+      tasks: { them: true, themSources: ['cp-pricing'] },
+      changecapture: { them: true, themSources: ['cp-guide', 'cp-bureaus'] },
+      audit: { them: 'Full time-stamped audit trail', themSources: ['cp-guide'] },
+      visibility: { them: true, themSources: ['cp-bureaus'] },
+
+      portal: { them: 'Business plan and above', themSources: ['cp-pricing', 'cp-guide'] },
+      helpdesk: { them: 'Business plan and above', themSources: ['cp-pricing', 'cp-guide'] },
+      whitelabel: { them: 'Business plan and above', themSources: ['cp-pricing'] },
+      feedback: { them: 'Business plan and above', themSources: ['cp-pricing'] },
+
+      reporting: { them: true, themSources: ['cp-pricing'] },
+      capacity: { them: 'Team workload & capacity visibility', themSources: ['cp-bureaus'] },
+      invoicing: { them: true, themSources: ['cp-pricing', 'cp-guide'] },
+
+      integrations: { them: true, themSources: ['cp-guide'] },
+      api: { them: 'Enterprise plan', themSources: ['cp-pricing'] },
+
+      pubpricing: { them: true, themSources: ['cp-pricing'] },
+    }),
 
     pricing: {
       bureauflow: SHARED.bureauflowPricing,
-      them: 'Not yet verified.',
+      them:
+        'Team £25/user/mo billed annually (£35 monthly) · Business £35/user/mo ' +
+        'annually (£45 monthly) · Enterprise custom. No free plan.',
       note:
-        'Pricing for Changepen has not been verified against their own published ' +
-        'material and is deliberately left blank rather than estimated.',
+        'Taken from Changepen’s published pricing page. Changepen state that they ' +
+        'start every engagement with a demo.',
     },
 
-    sources: [],
+    sources: [
+      {
+        id: 'cp-pricing',
+        url: 'https://www.changepen.co.uk/pricing',
+        accessed: '2026-08-07',
+        description: 'Changepen — Pricing',
+        kind: 'official',
+      },
+      {
+        id: 'cp-bureaus',
+        url: 'https://www.changepen.co.uk/solutions/payroll-bureaus',
+        accessed: '2026-08-07',
+        description: 'Changepen — Payroll bureau software',
+        kind: 'official',
+      },
+      {
+        id: 'cp-solutions',
+        url: 'https://www.changepen.co.uk/solutions',
+        accessed: '2026-08-07',
+        description: 'Changepen — Solutions overview',
+        kind: 'official',
+      },
+      {
+        id: 'cp-guide',
+        url: 'https://www.changepen.co.uk/payroll-operations-management',
+        accessed: '2026-08-07',
+        description: 'Changepen — Payroll operations management guide',
+        kind: 'official',
+      },
+    ],
   },
 
   /* ───────────────────────────────────────── Payflow ───────────────────── */
@@ -534,7 +647,8 @@ export const comparisons: Comparison[] = [
       },
     ],
 
-    matrix: bureauflowMatrix(),
+    // No admissible sources yet — every competitor cell stays null.
+    matrix: buildMatrix({}),
 
     pricing: {
       bureauflow: SHARED.bureauflowPricing,
