@@ -45,6 +45,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <tr><td>Vercel</td><td>Application hosting and deployment</td><td>Global CDN (EU primary)</td></tr>
         <tr><td>Stripe</td><td>Payment processing (paid tier only)</td><td>US/EU</td></tr>
         <tr><td>Resend</td><td>Transactional email delivery</td><td>US</td></tr>
+        {/* TODO(owner): processing locations for Anthropic and VoyageAI not yet confirmed against each provider's own sub-processor list / DPA — do not publish until filled in. */}
+        <tr><td>Anthropic</td><td>AI assistant (Penny)</td><td>To be confirmed</td></tr>
+        <tr><td>VoyageAI</td><td>Text embeddings for Penny’s knowledge search</td><td>To be confirmed</td></tr>
       </tbody>
     </table>
     <p>We may update this list from time to time. The current list is always available on this page.</p>
